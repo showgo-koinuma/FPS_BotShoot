@@ -9,10 +9,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float _moveSpeed = 10;
-    [SerializeField] float _jumpPower = 15;
+    [SerializeField] float _jumpPower = 10;
     Rigidbody _rb;
     float _isGroundedLength;
-    float _airTurnSpeed = 3;
+    float _turnSpeed = 3;
 
     void Start()
     {
@@ -26,13 +26,20 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
         Vector3 dir = new Vector3(h, 0, v); // 移動方向
-        dir = Camera.main.transform.TransformDirection(dir).normalized;
+        dir = Camera.main.transform.TransformDirection(dir); //カメラ基準のベクトルに直す
+        dir.y = 0;
+        dir = dir.normalized;
         Vector3 velo = dir * _moveSpeed;
         velo.y = _rb.velocity.y;
         if (!IsGround())
         {
-            velo = dir * velo.magnitude;
-            velo.y = _rb.velocity.y;
+            // 空中でゆっくり方向転換が可能
+            velo = _rb.velocity;
+            if (!(dir.magnitude == 0f))
+            {
+                Vector2 airDir = Vector2.Lerp(new Vector2(_rb.velocity.x, _rb.velocity.z), new Vector2(dir.x, dir.z) * 10, Time.deltaTime * _turnSpeed); // Slerp使えばmagnitudeを維持できるけど...
+                velo = new Vector3(airDir.x, _rb.velocity.y, airDir.y);
+            }
             _rb.velocity = velo;
         }
         else

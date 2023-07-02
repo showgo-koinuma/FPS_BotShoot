@@ -48,7 +48,7 @@ Shader "Unlit/GroundShader"
             {
                 fixed4 on = fixed4(0.35, 0.35, 0.35, 1);
                 fixed4 off = fixed4(0.5, 0.5, 0.5, 1);
-                fixed2 v = step(0, sin(50 * i.uv)) * 0.5;
+                fixed2 v = step(0, sin(70 * i.uv)) * 0.5;
                 //return frac(v.x + v.y) * 2;
                 return lerp(on, off, frac(v.x + v.y) * 2);
             }
