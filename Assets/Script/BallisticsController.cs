@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static System.Net.Mime.MediaTypeNames;
@@ -9,12 +10,13 @@ public class BallisticsController : MonoBehaviour
 {
     [SerializeField] int _maxBullets = 30;
     [SerializeField] float _reloadTime = 2;
-    [SerializeField] GameObject _text;
+    [SerializeField] int _damage = 20;
+    [SerializeField] float _shootInterval = 0.12f;
+    [SerializeField] GameObject _text; // 残弾表示（仮）
     int _remainingBullets;
     float _maxShootRange = 100;
     bool _canShoot = true;
     bool _reloading;
-    float _shootInterval = 0.12f;
 
     private void Start()
     {
@@ -28,19 +30,19 @@ public class BallisticsController : MonoBehaviour
             if (_remainingBullets > 0)
             {
                 Shoot();
-                StartCoroutine(nameof(RapidFire));
-                _remainingBullets--;
             }
-            else if (!_reloading)
+            else if (!_reloading) // 残弾0のときはリロードに入る
             {
                 StartCoroutine(nameof(Reload));
             }
         }
         if (Input.GetButtonDown("Reload") && _remainingBullets < _maxBullets && !_reloading)
         {
-            StartCoroutine(nameof(Reload));
+            StartCoroutine(nameof(Reload)); // リロードを呼ぶ
         }
 
+
+        // 残弾表示（仮）
         _text.GetComponent<UnityEngine.UI.Text>().text = _remainingBullets.ToString();
     }
 
@@ -55,9 +57,11 @@ public class BallisticsController : MonoBehaviour
             if (hit.collider.gameObject.tag == "Target")
             {
                 TargetController target = hit.collider.gameObject.GetComponent<TargetController>();
-                target.OnHit(); // ヒットしたオブジェクトのOnHitを呼ぶ
+                target.OnHit(_damage, hit.collider); // ヒットしたオブジェクトのOnHitを呼ぶ
             }
         }
+        _remainingBullets--;
+        StartCoroutine(nameof(RapidFire));
     }
 
     /// <summary>リロード処理</summary>
