@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManagerController : MonoBehaviour
 {
     [SerializeField] int _killScore = 50;
-    [SerializeField] GameObject _scoreTextObject;
+    [SerializeField] TextMeshProUGUI _scoreText;
     int _score = 0;
-    Text _scoreText;
 
     private void Start()
     {
-        _scoreText = _scoreTextObject.GetComponent<Text>();
+
     }
 
     private void Update()

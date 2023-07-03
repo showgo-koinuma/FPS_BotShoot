@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 /// <summary>弾道処理のコンポーネント</summary>
 public class BallisticsController : MonoBehaviour
@@ -12,7 +12,8 @@ public class BallisticsController : MonoBehaviour
     [SerializeField] float _reloadTime = 2;
     [SerializeField] int _damage = 20;
     [SerializeField] float _shootInterval = 0.12f;
-    [SerializeField] GameObject _text; // 残弾表示（仮）
+    [SerializeField] TextMeshProUGUI _maxBulletsText; // マガジンサイズテキスト
+    [SerializeField] TextMeshProUGUI _remainingBulletsText; // 残弾表示（仮）
     int _remainingBullets;
     float _maxShootRange = 100;
     bool _canShoot = true;
@@ -21,6 +22,7 @@ public class BallisticsController : MonoBehaviour
     private void Start()
     {
         _remainingBullets = _maxBullets;
+        _maxBulletsText.text = "/ " + _maxBullets.ToString();
     }
 
     void Update()
@@ -43,7 +45,7 @@ public class BallisticsController : MonoBehaviour
 
 
         // 残弾表示（仮）
-        _text.GetComponent<UnityEngine.UI.Text>().text = _remainingBullets.ToString();
+        _remainingBulletsText.text = _remainingBullets.ToString();
     }
 
     /// <summary>弾道処理</summary>
@@ -54,7 +56,7 @@ public class BallisticsController : MonoBehaviour
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, _maxShootRange))
         {
             Debug.Log(hit.collider.gameObject.name);
-            if (hit.collider.gameObject.tag == "Target")
+            if (hit.collider.gameObject.tag == "Enemy")
             {
                 TargetController target = hit.collider.gameObject.GetComponent<TargetController>();
                 target.OnHit(_damage, hit.collider); // ヒットしたオブジェクトのOnHitを呼ぶ
