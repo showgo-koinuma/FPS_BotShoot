@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,6 +13,8 @@ public class BallisticsController : MonoBehaviour
     [SerializeField] float _reloadTime = 2;
     [SerializeField] int _damage = 20;
     [SerializeField] float _shootInterval = 0.12f;
+    [SerializeField] float _recoilSize = 1f;
+    [SerializeField] CinemachineVirtualCameraBase _cam;
     [SerializeField] TextMeshProUGUI _maxBulletsText; // マガジンサイズテキスト
     [SerializeField] TextMeshProUGUI _remainingBulletsText; // 残弾表示（仮）
     int _remainingBullets;

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManagerController : MonoBehaviour
+public class StageGameManagerController : MonoBehaviour
 {
     [SerializeField] int _killScore = 50;
     [SerializeField] TextMeshProUGUI _scoreText;

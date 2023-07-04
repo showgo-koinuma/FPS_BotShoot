@@ -24,7 +24,7 @@ public class TargetController : MonoBehaviour
     {
         if (_hp <= 0) // hp‚ª0‚ð‰º‰ñ‚Á‚½(Ž€‚ñ‚¾)‚Æ‚«‚Ìˆ—
         {
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManagerController>().AddKillScore(_lastHitHead);
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<StageGameManagerController>().AddKillScore(_lastHitHead);
             Destroy(gameObject);
         }
     }
