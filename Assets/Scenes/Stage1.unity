@@ -528,7 +528,7 @@ MonoBehaviour:
   _damage: 20
   _shootInterval: 0.12
   _recoilSize: 1
-  _cam: {fileID: 0}
+  _cam: {fileID: 1804579093}
   _maxBulletsText: {fileID: 756143031}
   _remainingBulletsText: {fileID: 1108510508}
 --- !u!1 &651526804

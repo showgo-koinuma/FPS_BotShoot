@@ -14,7 +14,7 @@ public class BallisticsController : MonoBehaviour
     [SerializeField] int _damage = 20;
     [SerializeField] float _shootInterval = 0.12f;
     [SerializeField] float _recoilSize = 1f;
-    [SerializeField] CinemachineVirtualCameraBase _cam;
+    [SerializeField] CinemachineVirtualCamera _cam;
     [SerializeField] TextMeshProUGUI _maxBulletsText; // マガジンサイズテキスト
     [SerializeField] TextMeshProUGUI _remainingBulletsText; // 残弾表示（仮）
     int _remainingBullets;
@@ -65,6 +65,7 @@ public class BallisticsController : MonoBehaviour
                 target.OnHit(_damage, hit.collider); // ヒットしたオブジェクトのOnHitを呼ぶ
             }
         }
+        _cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value -= _recoilSize;
         _remainingBullets--;
         StartCoroutine(nameof(RapidFire));
     }
