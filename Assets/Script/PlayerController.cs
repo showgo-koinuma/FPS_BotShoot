@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
             velo = _rb.velocity;
             if (!(dir.magnitude == 0f))
             {
-                Vector2 airDir = Vector2.Lerp(new Vector2(_rb.velocity.x, _rb.velocity.z), new Vector2(dir.x, dir.z) * 10, Time.deltaTime * _turnSpeed); // Slerpg‚¦‚Îmagnitude‚ğˆÛ‚Å‚«‚é‚¯‚Ç...
+                Vector2 airDir = Vector2.Lerp(new Vector2(_rb.velocity.x, _rb.velocity.z), new Vector2(dir.x, dir.z) * _rb.velocity.magnitude, Time.deltaTime * _turnSpeed); // Slerpg‚¦‚Îmagnitude‚ğˆÛ‚Å‚«‚é‚¯‚Ç...
                 velo = new Vector3(airDir.x, _rb.velocity.y, airDir.y);
             }
             _rb.velocity = velo;

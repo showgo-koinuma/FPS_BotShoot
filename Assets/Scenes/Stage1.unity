@@ -394,7 +394,6 @@ GameObject:
   - component: {fileID: 580605766}
   - component: {fileID: 580605771}
   - component: {fileID: 580605770}
-  - component: {fileID: 580605772}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -511,26 +510,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &580605772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580605765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcd1b8013fff7db4e90edfa33da7c4cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxBullets: 30
-  _reloadTime: 2
-  _damage: 20
-  _shootInterval: 0.12
-  _recoilSize: 1
-  _cam: {fileID: 1804579093}
-  _maxBulletsText: {fileID: 756143031}
-  _remainingBulletsText: {fileID: 1108510508}
 --- !u!1 &651526804
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +624,6 @@ GameObject:
   - component: {fileID: 666376739}
   - component: {fileID: 666376742}
   - component: {fileID: 666376741}
-  - component: {fileID: 666376740}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -661,26 +639,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666376738}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.15}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2001579761}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &666376740
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 666376738}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &666376741
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2155,6 +2120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2001579761}
+  - component: {fileID: 2001579762}
   m_Layer: 0
   m_Name: AssaultRifle
   m_TagString: Untagged
@@ -2170,7 +2136,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2001579760}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0.35000038, y: -0.29999995, z: 0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2178,6 +2144,26 @@ Transform:
   m_Father: {fileID: 963194228}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2001579762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001579760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd1b8013fff7db4e90edfa33da7c4cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxBullets: 30
+  _reloadTime: 2
+  _damage: 20
+  _shootInterval: 0.12
+  _recoilSize: 3
+  _cam: {fileID: 1804579093}
+  _maxBulletsText: {fileID: 756143031}
+  _remainingBulletsText: {fileID: 1108510508}
 --- !u!1 &2072345775
 GameObject:
   m_ObjectHideFlags: 0

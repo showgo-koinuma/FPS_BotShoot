@@ -12,20 +12,21 @@ public class BallisticsController : MonoBehaviour
     [SerializeField] int _maxBullets = 30;
     [SerializeField] float _reloadTime = 2;
     [SerializeField] int _damage = 20;
-    [SerializeField] float _shootInterval = 0.12f;
-    [SerializeField] float _recoilSize = 1f;
+    [SerializeField] float _shootInterval = 0.1f;
+    [SerializeField] float _recoilSize = 3f;
     [SerializeField] CinemachineVirtualCamera _cam;
     [SerializeField] TextMeshProUGUI _maxBulletsText; // マガジンサイズテキスト
     [SerializeField] TextMeshProUGUI _remainingBulletsText; // 残弾表示（仮）
     int _remainingBullets;
     float _maxShootRange = 100;
     bool _canShoot = true;
-    bool _reloading;
+    CinemachinePOV _cinemachinePOV;
 
     private void Start()
     {
         _remainingBullets = _maxBullets;
         _maxBulletsText.text = "/ " + _maxBullets.ToString();
+        _cinemachinePOV = _cam.GetCinemachineComponent<CinemachinePOV>();
     }
 
     void Update()
@@ -36,12 +37,12 @@ public class BallisticsController : MonoBehaviour
             {
                 Shoot();
             }
-            else if (!_reloading) // 残弾0のときはリロードに入る
+            else // 残弾0のときはリロードに入る
             {
                 StartCoroutine(nameof(Reload));
             }
         }
-        if (Input.GetButtonDown("Reload") && _remainingBullets < _maxBullets && !_reloading)
+        if (Input.GetButtonDown("Reload") && _remainingBullets < _maxBullets && _canShoot)
         {
             StartCoroutine(nameof(Reload)); // リロードを呼ぶ
         }
@@ -65,7 +66,8 @@ public class BallisticsController : MonoBehaviour
                 target.OnHit(_damage, hit.collider); // ヒットしたオブジェクトのOnHitを呼ぶ
             }
         }
-        _cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value -= _recoilSize;
+        //_cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value -= _recoilSize;
+        StartCoroutine(nameof(Recoil));
         _remainingBullets--;
         StartCoroutine(nameof(RapidFire));
     }
@@ -74,12 +76,10 @@ public class BallisticsController : MonoBehaviour
     IEnumerator Reload()
     {
         Debug.Log("リロード");
-        _reloading = true;
         _canShoot = false;
         yield return new WaitForSeconds(_reloadTime);
         _canShoot = true;
         _remainingBullets = _maxBullets;
-        _reloading = false;
     }
 
     /// <summary>連射速度処理</summary>
@@ -88,5 +88,19 @@ public class BallisticsController : MonoBehaviour
         _canShoot = false;
         yield return new WaitForSeconds(_shootInterval);
         _canShoot = true; // _shootInterval秒だけ待ってtrueを返す
+    }
+
+    /// <summary>リコイル処理</summary>￥
+    IEnumerator Recoil()
+    {
+        float timer = 0;
+        while (true)
+        {
+            timer += Time.deltaTime;
+            _cinemachinePOV.m_VerticalAxis.Value -= _recoilSize * Time.deltaTime / 0.1f;
+            yield return new WaitForEndOfFrame();
+            if (timer > 0.09)
+                yield break;
+        }
     }
 }
