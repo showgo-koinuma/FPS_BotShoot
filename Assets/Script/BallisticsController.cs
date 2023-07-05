@@ -17,11 +17,11 @@ public class BallisticsController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera _cam;
     [SerializeField] TextMeshProUGUI _maxBulletsText; // マガジンサイズテキスト
     [SerializeField] TextMeshProUGUI _remainingBulletsText; // 残弾表示（仮）
+    [SerializeField] ParticleSystem _muzzleFlashParticles;
+    [SerializeField] GameObject[] _hitEffectPrefab;
     int _remainingBullets;
     float _maxShootRange = 100;
     GunState _gunState; // 銃の状態（仮）
-    //bool _canShoot = true;
-    //bool _reloading;
     CinemachinePOV _cinemachinePOV;
     Animator _animator;
 
@@ -70,10 +70,18 @@ public class BallisticsController : MonoBehaviour
                 TargetController target = hit.collider.gameObject.GetComponent<TargetController>();
                 target.OnHit(_damage, hit.collider); // ヒットしたオブジェクトのOnHitを呼ぶ
             }
+            else
+            {
+                foreach (GameObject effect in _hitEffectPrefab)
+                {
+                    Instantiate(effect, hit.point, Quaternion.LookRotation(hit.normal));
+                }
+            }
         }
+        _muzzleFlashParticles.Play();
+        _remainingBullets--;
         //_cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value -= _recoilSize;
         StartCoroutine(nameof(Recoil));
-        _remainingBullets--;
         StartCoroutine(nameof(RapidFire));
     }
 
