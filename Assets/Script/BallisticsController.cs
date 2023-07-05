@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.UI;
 
 /// <summary>弾道処理のコンポーネント</summary>
@@ -18,7 +19,9 @@ public class BallisticsController : MonoBehaviour
     [SerializeField] TextMeshProUGUI _remainingBulletsText; // 残弾表示（仮）
     int _remainingBullets;
     float _maxShootRange = 100;
-    bool _canShoot = true;
+    GunState _gunState; // 銃の状態（仮）
+    //bool _canShoot = true;
+    //bool _reloading;
     CinemachinePOV _cinemachinePOV;
     Animator _animator;
 
@@ -28,11 +31,12 @@ public class BallisticsController : MonoBehaviour
         _maxBulletsText.text = "/ " + _maxBullets.ToString();
         _cinemachinePOV = _cam.GetCinemachineComponent<CinemachinePOV>();
         _animator = GetComponent<Animator>();
+        _gunState = GunState.Normal;
     }
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && _canShoot)
+        if (Input.GetButton("Fire1") && _gunState == GunState.Normal)
         {
             if (_remainingBullets > 0)
             {
@@ -43,7 +47,7 @@ public class BallisticsController : MonoBehaviour
                 StartCoroutine(nameof(Reload));
             }
         }
-        if (Input.GetButtonDown("Reload") && _remainingBullets < _maxBullets && _canShoot)
+        if (Input.GetButtonDown("Reload") && _remainingBullets < _maxBullets)
         {
             StartCoroutine(nameof(Reload)); // リロードを呼ぶ
         }
@@ -77,18 +81,22 @@ public class BallisticsController : MonoBehaviour
     IEnumerator Reload()
     {
         Debug.Log("リロード");
-        _canShoot = false;
+        _gunState = GunState.Reloading;
+        _animator.Play("ReloadAnimator");
         yield return new WaitForSeconds(_reloadTime);
-        _canShoot = true;
+        _gunState = GunState.Normal;
         _remainingBullets = _maxBullets;
     }
 
     /// <summary>連射速度処理</summary>
     IEnumerator RapidFire()
     {
-        _canShoot = false;
+        _gunState = GunState.ShootIntervalTime;
         yield return new WaitForSeconds(_shootInterval);
-        _canShoot = true; // _shootInterval秒だけ待ってtrueを返す
+        if (_gunState != GunState.Reloading)
+        {
+            _gunState = GunState.Normal; // _shootInterval秒だけ待ってtrueを返す
+        }
     }
 
     /// <summary>リコイル処理</summary>￥
@@ -96,7 +104,7 @@ public class BallisticsController : MonoBehaviour
     {
         float timer = 0;
         float horizontalRecoil = Random.Range(-0.05f, 0.05f);
-        _animator.Play("AssaultRifleRecoilAnimator");
+        _animator.Play("AssaultRifleRecoilAnimator", 0, 0);
         while (true)
         {
             timer += Time.deltaTime;
@@ -105,5 +113,13 @@ public class BallisticsController : MonoBehaviour
             yield return new WaitForEndOfFrame();
             if (timer > 0.09) { yield break; }
         }
+    }
+
+    /// <summary>銃の状態を表す</summary>
+    enum GunState
+    {
+        Normal,
+        ShootIntervalTime,
+        Reloading,
     }
 }

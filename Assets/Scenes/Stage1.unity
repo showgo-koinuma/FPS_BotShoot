@@ -2160,7 +2160,7 @@ MonoBehaviour:
   _maxBullets: 30
   _reloadTime: 2
   _damage: 20
-  _shootInterval: 0.1
+  _shootInterval: 0.15
   _recoilSize: 3
   _cam: {fileID: 1804579093}
   _maxBulletsText: {fileID: 756143031}

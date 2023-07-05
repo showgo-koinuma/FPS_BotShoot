@@ -12,7 +12,8 @@ public class StageGameManagerController : MonoBehaviour
 
     private void Start()
     {
-
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
@@ -29,5 +30,10 @@ public class StageGameManagerController : MonoBehaviour
         {
             _score += _killScore;
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        Cursor.visible = true;
     }
 }
