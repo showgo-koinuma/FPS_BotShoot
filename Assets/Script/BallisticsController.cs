@@ -1,6 +1,5 @@
 using Cinemachine;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,12 +20,14 @@ public class BallisticsController : MonoBehaviour
     float _maxShootRange = 100;
     bool _canShoot = true;
     CinemachinePOV _cinemachinePOV;
+    Animator _animator;
 
     private void Start()
     {
         _remainingBullets = _maxBullets;
         _maxBulletsText.text = "/ " + _maxBullets.ToString();
         _cinemachinePOV = _cam.GetCinemachineComponent<CinemachinePOV>();
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -94,13 +95,15 @@ public class BallisticsController : MonoBehaviour
     IEnumerator Recoil()
     {
         float timer = 0;
+        float horizontalRecoil = Random.Range(-0.05f, 0.05f);
+        _animator.Play("AssaultRifleRecoilAnimator");
         while (true)
         {
             timer += Time.deltaTime;
-            _cinemachinePOV.m_VerticalAxis.Value -= _recoilSize * Time.deltaTime / 0.1f;
+            _cinemachinePOV.m_VerticalAxis.Value -= _recoilSize * Time.deltaTime / 0.09f;
+            _cinemachinePOV.m_HorizontalAxis.Value += horizontalRecoil * Time.deltaTime / 0.09f;
             yield return new WaitForEndOfFrame();
-            if (timer > 0.09)
-                yield break;
+            if (timer > 0.09) { yield break; }
         }
     }
 }
