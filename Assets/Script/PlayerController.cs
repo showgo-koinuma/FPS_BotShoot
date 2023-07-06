@@ -11,7 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _moveSpeed = 10;
     [SerializeField] float _jumpPower = 10;
     Rigidbody _rb;
+    /// <summary>接地判定の距離</summary>
     float _isGroundedLength;
+    /// <summary>空中での方向転換のスピード</summary>
     float _turnSpeed = 3;
 
     void Start()
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
             velo = _rb.velocity;
             if (!(dir.magnitude == 0f))
             {
+                // 速度の大きさを保持しながら向きを少しずつ変える
                 Vector2 airDir = Vector2.Lerp(new Vector2(_rb.velocity.x, _rb.velocity.z), new Vector2(dir.x, dir.z) * _rb.velocity.magnitude, Time.deltaTime * _turnSpeed); // Slerp使えばmagnitudeを維持できるけど...
                 velo = new Vector3(airDir.x, _rb.velocity.y, airDir.y);
             }

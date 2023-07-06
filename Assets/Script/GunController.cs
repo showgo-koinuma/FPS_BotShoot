@@ -7,18 +7,26 @@ using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.UI;
 
 /// <summary>弾道処理のコンポーネント</summary>
-public class BallisticsController : MonoBehaviour
+public class GunController : MonoBehaviour
 {
+    /// <summary>最大マガジン容量</summary>
     [SerializeField] int _maxBullets = 30;
+    /// <summary>リロード時間</summary>
     [SerializeField] float _reloadTime = 2;
     [SerializeField] int _damage = 20;
+    /// <summary>連射間隔</summary>
     [SerializeField] float _shootInterval = 0.1f;
     [SerializeField] float _recoilSize = 3f;
+    /// <summary>リコイル用</summary>
     [SerializeField] CinemachineVirtualCamera _cam;
-    [SerializeField] TextMeshProUGUI _maxBulletsText; // マガジンサイズテキスト
-    [SerializeField] TextMeshProUGUI _remainingBulletsText; // 残弾表示（仮）
+    /// <summary>最大マガジン容量テキスト</summary>
+    [SerializeField] TextMeshProUGUI _maxBulletsText;
+    /// <summary>残弾表示テキスト</summary>
+    [SerializeField] TextMeshProUGUI _remainingBulletsText;
     [SerializeField] ParticleSystem _muzzleFlashParticles;
+    /// <summary>Target以外にhitしたときのエフェクト</summary>
     [SerializeField] GameObject[] _hitEffectPrefab;
+
     int _remainingBullets;
     float _maxShootRange = 100;
     GunState _gunState; // 銃の状態（仮）
@@ -65,10 +73,10 @@ public class BallisticsController : MonoBehaviour
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, _maxShootRange))
         {
             Debug.Log(hit.collider.gameObject.name);
-            if (hit.collider.gameObject.tag == "Enemy")
+            if (hit.collider.gameObject.tag == "Target")
             {
                 TargetController target = hit.collider.gameObject.GetComponent<TargetController>();
-                target.OnHit(_damage, hit.collider); // ヒットしたオブジェクトのOnHitを呼ぶ
+                target.OnHit(_damage, hit.collider); // OnHitを呼ぶ
             }
             else
             {

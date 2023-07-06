@@ -266,10 +266,10 @@ GameObject:
   - component: {fileID: 436188109}
   - component: {fileID: 436188108}
   - component: {fileID: 436188113}
-  - component: {fileID: 436188112}
+  - component: {fileID: 436188114}
   m_Layer: 0
-  m_Name: Target
-  m_TagString: Enemy
+  m_Name: Enemy
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -354,19 +354,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &436188112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 436188107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e30b302e15cc7a46b9c9a6671e532d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hp: 100
 --- !u!135 &436188113
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -380,6 +367,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.375
   m_Center: {x: 0, y: 1.25, z: 0}
+--- !u!114 &436188114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436188107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8510b6289d22e94488e2b338f27b51c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hp: 100
+  _headMagnification: 2.5
 --- !u!1 &580605765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,10 +1131,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 795053026}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e30b302e15cc7a46b9c9a6671e532d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 627e1a14d1c66744897207329fe81969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 100
+  _materials:
+  - {fileID: 2100000, guid: ca32e2dc21fd6fd4dbe4b3d6249d8933, type: 2}
+  - {fileID: 2100000, guid: a570781c5f688e24283b01100136a8f6, type: 2}
+  - {fileID: 2100000, guid: 4245a226dcaa1574ca46bfc879d5787c, type: 2}
+  - {fileID: 2100000, guid: 5bc5cc05cb41b9f4ba23cb9a56b039ae, type: 2}
 --- !u!1 &959388326
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,10 +1683,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1230443595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e30b302e15cc7a46b9c9a6671e532d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 627e1a14d1c66744897207329fe81969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 100
+  _materials: []
 --- !u!1 &1254492915
 GameObject:
   m_ObjectHideFlags: 0
@@ -11653,7 +11658,7 @@ RectTransform:
   m_GameObject: {fileID: 1678217457}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.03, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.02, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1220087856}
@@ -11880,10 +11885,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1936561137}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e30b302e15cc7a46b9c9a6671e532d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 627e1a14d1c66744897207329fe81969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 100
+  _materials: []
 --- !u!1 &2001579760
 GameObject:
   m_ObjectHideFlags: 0
@@ -11975,7 +11980,6 @@ GameObject:
   - component: {fileID: 2072345779}
   - component: {fileID: 2072345778}
   - component: {fileID: 2072345777}
-  - component: {fileID: 2072345780}
   m_Layer: 0
   m_Name: Head
   m_TagString: Target
@@ -12048,19 +12052,6 @@ Transform:
   m_Father: {fileID: 436188111}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2072345780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072345775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e30b302e15cc7a46b9c9a6671e532d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hp: 100
 --- !u!1 &2120576782
 GameObject:
   m_ObjectHideFlags: 0
@@ -12088,7 +12079,7 @@ RectTransform:
   m_GameObject: {fileID: 2120576782}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.03, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.02, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1220087856}
