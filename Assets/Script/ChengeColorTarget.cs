@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using UnityEngine;
 
+/// <summary>課題用：撃つとセットしたマテリアルに順番に切り替わる</summary>
 public class ChengeColorTarget : TargetController
 {
     [SerializeField] Material[] _materials;

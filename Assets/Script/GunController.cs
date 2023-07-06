@@ -27,11 +27,15 @@ public class GunController : MonoBehaviour
     /// <summary>Target以外にhitしたときのエフェクト</summary>
     [SerializeField] GameObject[] _hitEffectPrefab;
 
+    /// <summary>残弾</summary>
     int _remainingBullets;
+    /// <summary>弾の最大レンジ</summary>
     float _maxShootRange = 100;
-    GunState _gunState; // 銃の状態（仮）
+    /// <summary>リコイル用</summary>
     CinemachinePOV _cinemachinePOV;
     Animator _animator;
+    /// <summary>銃の状態</summary>
+    GunState _gunState;
 
     private void Start()
     {
@@ -70,10 +74,10 @@ public class GunController : MonoBehaviour
     {
         RaycastHit hit;
         //レイを飛ばして、ヒットしたオブジェクトの情報を得る
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, _maxShootRange))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, _maxShootRange)) // 何かに当たったとき
         {
             Debug.Log(hit.collider.gameObject.name);
-            if (hit.collider.gameObject.tag == "Target")
+            if (hit.collider.gameObject.tag == "Target") // Targetに当たったとき
             {
                 TargetController target = hit.collider.gameObject.GetComponent<TargetController>();
                 target.OnHit(_damage, hit.collider); // OnHitを呼ぶ
@@ -86,17 +90,15 @@ public class GunController : MonoBehaviour
                 }
             }
         }
-        _muzzleFlashParticles.Play();
-        _remainingBullets--;
-        //_cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value -= _recoilSize;
-        StartCoroutine(nameof(Recoil));
+        _muzzleFlashParticles.Play(); // マズルフラッシュ
+        _remainingBullets--; // 残弾を減らす
         StartCoroutine(nameof(RapidFire));
+        StartCoroutine(nameof(Recoil));
     }
 
     /// <summary>リロード処理</summary>
     IEnumerator Reload()
     {
-        Debug.Log("リロード");
         _gunState = GunState.Reloading;
         _animator.Play("ReloadAnimator");
         yield return new WaitForSeconds(_reloadTime);
@@ -111,7 +113,7 @@ public class GunController : MonoBehaviour
         yield return new WaitForSeconds(_shootInterval);
         if (_gunState != GunState.Reloading)
         {
-            _gunState = GunState.Normal; // _shootInterval秒だけ待ってtrueを返す
+            _gunState = GunState.Normal;
         }
     }
 
