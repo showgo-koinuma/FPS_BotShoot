@@ -1,6 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Cinemachine;
+using Unity.VisualScripting;
 
 /// <summary>
 /// プレイヤーを動かすコンポーネント
@@ -15,11 +17,14 @@ public class PlayerController : MonoBehaviour
     float _isGroundedLength;
     /// <summary>空中での方向転換のスピード</summary>
     float _turnSpeed = 3;
+    CinemachinePOV _playerPOV;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _isGroundedLength = GetComponent<CapsuleCollider>().height / 2 + 0.1f;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        _playerPOV = GameObject.Find("PlayerPov").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachinePOV>();
     }
 
     void Update()
@@ -66,5 +71,12 @@ public class PlayerController : MonoBehaviour
         Debug.DrawLine(start, end);
         bool isGround = Physics.Linecast(start, end);
         return isGround;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+    {
+        transform.position = new Vector3(0, 1, 0);
+        _playerPOV.m_VerticalAxis.Value = 0;
+        _playerPOV.m_HorizontalAxis.Value = 0;
     }
 }
