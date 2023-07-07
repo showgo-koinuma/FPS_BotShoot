@@ -12,8 +12,6 @@ public class StageGameManagerController : MonoBehaviour
     private void Start()
     {
         _scoreText.text = _score.ToString("000");
-        Cursor.visible = false; // カーソル非表示
-        Cursor.lockState = CursorLockMode.Locked; // カーソルを画面内に留める
     }
 
     /// <summary>ポイント加算</summary>
@@ -22,11 +20,5 @@ public class StageGameManagerController : MonoBehaviour
     {
         _score += addScore;
         _scoreText.text = _score.ToString("000");
-    }
-
-    /// <summary>ゲーム終了時の処理</summary>
-    private void OnApplicationQuit()
-    {
-        Cursor.visible = true; // カーソルを表示
     }
 }
