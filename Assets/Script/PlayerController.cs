@@ -1,8 +1,6 @@
-using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cinemachine;
-using Unity.VisualScripting;
 
 /// <summary>
 /// プレイヤーを動かすコンポーネント

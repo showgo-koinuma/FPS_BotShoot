@@ -1,10 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
-using UnityEngine.UI;
 
 /// <summary>弾道処理のコンポーネント</summary>
 public class GunController : MonoBehaviour
