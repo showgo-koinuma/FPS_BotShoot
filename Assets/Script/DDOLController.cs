@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class DDOLController : MonoBehaviour
 {
-    void Start()
+    public static DDOLController instance = null;
+
+    private void Awake()
     {
-        if (FindObjectsOfType<DDOLController>().Length > 1)
+        if (instance == null)
         {
-            Destroy(this.gameObject);
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
-            DontDestroyOnLoad(this.gameObject);
+            Destroy(this.gameObject);
         }
+
     }
 }
