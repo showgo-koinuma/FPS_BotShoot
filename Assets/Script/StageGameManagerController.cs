@@ -13,19 +13,21 @@ public class StageGameManagerController : MonoBehaviour
     [SerializeField] GameObject _finishPanel;
     [SerializeField] GameObject _finishText;
     [SerializeField] GameObject _returnLobbyButton;
+    Animator _timerTextAnimator;
     bool _inGame = true;
+    int _botNum;
     int _botCount;
     int _score = 0;
     float _timer;
-    /// <summary>残り時間をスコアに変換するレート</summary>
-    int _timeToScoreRate = 10;
 
     private void Start()
     {
         _scoreText.text = _score.ToString("000");
         _timer = _timeLimit;
-        _botCount = GameObject.FindObjectsOfType<EnemyController>().Length;
-        _botCountText.text = _botCount.ToString();
+        _botNum = GameObject.FindObjectsOfType<EnemyController>().Length;
+        _botCount = _botNum;
+        _timerTextAnimator = _timerText.gameObject.GetComponent<Animator>();
+        _botCountText.text = $"{_botCount} / {_botNum}";
         _finishPanel.SetActive(false);
         _finishText.SetActive(false);
         _returnLobbyButton.SetActive(false);
@@ -38,7 +40,7 @@ public class StageGameManagerController : MonoBehaviour
             _timer -= Time.deltaTime;
             if (_timer <= 10)
             {
-                _timerText.gameObject.GetComponent<Animator>().Play("TimerColorAnimation");
+                _timerTextAnimator.Play("TimerColorAnimation");
             }
 
             if (_timer <= 0 || _botCount == 0)
@@ -58,7 +60,7 @@ public class StageGameManagerController : MonoBehaviour
         _score += addScore;
         _scoreText.text = _score.ToString("000");
         _botCount--;
-        _botCountText.text = _botCount.ToString();
+        _botCountText.text = $"{_botCount} / {_botNum}";
     }
 
     /// <summary>button用ロビーに戻る</summary>
@@ -74,37 +76,18 @@ public class StageGameManagerController : MonoBehaviour
         _finishPanel.SetActive(true);
         _finishText.SetActive(true);
         yield return new WaitForSeconds(1);
-        float timer = 0;
-        RectTransform transform = _finishPanel.GetComponent<RectTransform>();
-        while (timer <= 1)
-        {
-            timer += Time.deltaTime;
-            float scaleY = 0.15f + 0.85f * timer / 1;
-            float positionY = 70 - 70 * timer / 1;
-            transform.localScale = new Vector3(1, scaleY, 1);
-            transform.localPosition = new Vector3(0, positionY, 0);
-            yield return new WaitForEndOfFrame();
-        }
-        timer = 1;
-        RectTransform scoreTextTransform = _scoreText.gameObject.GetComponent<RectTransform>();
-        RectTransform finishTextTransform = _finishText.GetComponent<RectTransform>();
-        float scorePosX = scoreTextTransform.position.x;
-        float scorePosY = scoreTextTransform.position.y;
-        while (timer >= 0)
-        {
-            timer -= Time.deltaTime;
-            scorePosX = 320 * timer / 1;
-            scorePosY = 50 + 145 * timer / 1;
-            float finishPosY = 140 - 70 * timer / 1;
-            finishTextTransform.localPosition = new Vector3(0, finishPosY, 0);
-            scoreTextTransform.localPosition = new Vector3(scorePosX, scorePosY, 0);
-            yield return new WaitForEndOfFrame();
-        }
-        yield return new WaitForSeconds(0.5f);
-        timer = 0;
-        int addedTimeScore = _score + (int)_timer * _timeToScoreRate;
+
+        _finishPanel.GetComponent<Animator>().Play("PanelAnimation");
+        yield return new WaitForSeconds(1);
+
+        _finishText.GetComponent<Animator>().Play("FInishTextAnimation");
+        _scoreText.gameObject.GetComponent<Animator>().Play("ScoreTextAnimation");
+        yield return new WaitForSeconds(1.5f);
+
+        int addedTimeScore = (int)(_score * _timeLimit / (_timeLimit - _timer));
         float finishTime = _timer;
         Debug.Log("addScore : " + addedTimeScore);
+        float timer = 0;
         while (timer < 1.5)
         {
             timer += Time.deltaTime;
