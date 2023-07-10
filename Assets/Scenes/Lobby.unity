@@ -1729,7 +1729,7 @@ GameObject:
   - component: {fileID: 890796140}
   - component: {fileID: 890796139}
   m_Layer: 5
-  m_Name: ScoreText
+  m_Name: RankingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12745,7 +12745,7 @@ GameObject:
   - component: {fileID: 1938144921}
   - component: {fileID: 1938144920}
   m_Layer: 5
-  m_Name: ScoreCanvas
+  m_Name: RankingCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -17,7 +17,7 @@ public class DDOLGameManagerController : MonoBehaviour
     /// <summary>sensïœçXóp</summary>
     CinemachinePOV _cinemachinePOV;
 
-    void Start()
+    void Awake()
     {
         _cinemachinePOV = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachinePOV>();
         _sensSlider.value = _cinemachinePOV.m_VerticalAxis.m_MaxSpeed;

@@ -5,9 +5,9 @@ using System;
 
 public class ScoreManager : MonoBehaviour
 {
-    TextMeshProUGUI _scoreText;
+    TextMeshProUGUI _rankingText;
     int[] _scoreList = new int[5];
-    string _rankingText;
+    string _rankingString;
 
     private void Update()
     {
@@ -18,14 +18,14 @@ public class ScoreManager : MonoBehaviour
     {
         if (scene.name == "Lobby") // ロビーがロードされたら_scoreTextにスコアを表示する
         {
-            _scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
-            _rankingText = "";
+            _rankingText = GameObject.Find("RankingText").GetComponent<TextMeshProUGUI>();
+            _rankingString = "";
             for (int i = 0; i < _scoreList.Length; i++)
             {
-                _rankingText += $"{_scoreList[i]}\r\n";
+                _rankingString += $"{_scoreList[i]}\r\n";
             }
-            _scoreText.text = _rankingText;
-            Debug.Log(_rankingText);
+            _rankingText.text = _rankingString;
+            Debug.Log(_rankingString);
         }
     }
 

@@ -13,6 +13,7 @@ public class StageGameManagerController : MonoBehaviour
     [SerializeField] GameObject _finishPanel;
     [SerializeField] GameObject _finishText;
     [SerializeField] GameObject _returnLobbyButton;
+    [SerializeField] TextMeshProUGUI _addScoreText;
     Animator _timerTextAnimator;
     bool _inGame = true;
     int _botNum;
@@ -55,9 +56,11 @@ public class StageGameManagerController : MonoBehaviour
 
     /// <summary>キル時のポイント加算</summary>
     /// <param name="lastHitHead"></param>
-    public void Killed(int addScore)
+    public void KillAddScore(int addScore)
     {
         _score += addScore;
+        _addScoreText.text = $"+{addScore}";
+        _addScoreText.gameObject.GetComponent<Animator>().Play("AddScoreTextAnimation", 0, 0);
         _scoreText.text = _score.ToString("000");
         _botCount--;
         _botCountText.text = $"{_botCount} / {_botNum}";

@@ -43,7 +43,7 @@ public class EnemyController : TargetController
     void IsDead()
     {
         if (_lastHitHead) { _killScore *= 2; }
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<StageGameManagerController>().Killed(_killScore);
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<StageGameManagerController>().KillAddScore(_killScore);
         Destroy(gameObject);
     }
 }
