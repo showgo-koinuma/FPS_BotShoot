@@ -23,7 +23,8 @@ public class GunController : MonoBehaviour
     [SerializeField] ParticleSystem _muzzleFlashParticles;
     /// <summary>Target以外にhitしたときのエフェクト</summary>
     [SerializeField] GameObject[] _hitEffectPrefab;
-
+    [SerializeField] Animator _hitUIEffect;
+ 
     /// <summary>残弾</summary>
     int _remainingBullets;
     /// <summary>弾の最大レンジ</summary>
@@ -78,6 +79,8 @@ public class GunController : MonoBehaviour
             {
                 TargetController target = hit.collider.gameObject.GetComponent<TargetController>();
                 target.OnHit(_damage, hit.collider); // OnHitを呼ぶ
+                _hitUIEffect.Play("HitUIAnimation");
+
             }
             else
             {
