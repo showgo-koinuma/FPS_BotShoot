@@ -70,18 +70,22 @@ public class GunController : MonoBehaviour
     /// <summary>弾道処理</summary>
     void Shoot()
     {
-        RaycastHit hit;
         //レイを飛ばして、ヒットしたオブジェクトの情報を得る
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, _maxShootRange)) // 何かに当たったとき
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hit, _maxShootRange, ~(1<<6))) // 何かに当たったとき
         {
             Debug.Log(hit.collider.gameObject.name);
-            if (hit.collider.gameObject.tag == "Target") // Targetに当たったとき
+            if (hit.collider.gameObject.TryGetComponent(out TargetController component))
             {
-                TargetController target = hit.collider.gameObject.GetComponent<TargetController>();
-                target.OnHit(_damage, hit.collider); // OnHitを呼ぶ
+                component.OnHit(_damage, hit.collider); // OnHitを呼ぶ
                 _hitUIEffect.Play("HitUIAnimation");
-
             }
+            // 旧式
+            //if (hit.collider.gameObject.tag == "Target") // Targetに当たったとき
+            //{
+            //    TargetController target = hit.collider.gameObject.GetComponent<TargetController>();
+            //    target.OnHit(_damage, hit.collider); // OnHitを呼ぶ
+            //    _hitUIEffect.Play("HitUIAnimation");
+            //}
             else
             {
                 foreach (GameObject effect in _hitEffectPrefab)
