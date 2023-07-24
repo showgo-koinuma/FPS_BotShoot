@@ -15,8 +15,9 @@ public class PlayerController : MonoBehaviour
     //float _isGroundedLength = 1.1f;
     /// <summary>空中での方向転換のスピード</summary>
     float _turnSpeed = 3;
-    bool _isGrounded;
     CinemachinePOV _playerPOV;
+    IsGroundManager _isGroundManager;
+    bool IsGround;
 
     void Start()
     {
@@ -24,13 +25,11 @@ public class PlayerController : MonoBehaviour
         //_isGroundedLength = GetComponent<CapsuleCollider>().height / 2 + 0.1f;
         SceneManager.sceneLoaded += OnSceneLoaded;
         _playerPOV = GameObject.Find("PlayerPov").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachinePOV>();
+        _isGroundManager = GetComponentInChildren<IsGroundManager>();
     }
 
     void Update()
     {
-        // オブジェクトの方向転換
-        //transform.rotation = Quaternion.LookRotation(Camera.main.);
-
         // 水平移動処理
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
@@ -39,8 +38,8 @@ public class PlayerController : MonoBehaviour
         dir.y = 0;
         dir = dir.normalized;
         Vector3 velo = dir * _moveSpeed;
-        velo.y = _rb.velocity.y;
-        if (!_isGrounded)
+        //velo.y = _rb.velocity.y;
+        if (!IsGround)
         {
             // 空中でゆっくり方向転換が可能
             velo = _rb.velocity;
@@ -58,10 +57,14 @@ public class PlayerController : MonoBehaviour
         }
 
         // Jump処理
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+        if (Input.GetButtonDown("Jump") && IsGround)
         {
-            _isGrounded = false;
             _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+        }
+        
+        if (Input.GetButtonDown("Fire2"))
+        {
+            Debug.Log(_isGroundManager.IsGround);
         }
     }
 
@@ -85,11 +88,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        _isGrounded = true;
+        Debug.Log("1");
+        if (other.gameObject.tag == "Ground")
+        {
+            IsGround = true;
+            Debug.Log("2");
+        }
     }
-
     private void OnTriggerExit(Collider other)
     {
-        _isGrounded = false;
+        if (other.gameObject.tag == "Ground")
+            IsGround = false;
     }
 }
