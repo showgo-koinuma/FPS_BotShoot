@@ -30,10 +30,9 @@ public class PlayerController : MonoBehaviour
         if (_jumped)
         {
             _jumpedTimer += Time.deltaTime;
-            if (_jumpedTimer > 0.2f)
+            if (_jumpedTimer > 0.3f)
             {
                 _jumped = false;
-                _jumpedTimer = 0;
             }
             IsGround = false;
         }
@@ -68,8 +67,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButton("Jump"))
             {
-                _jumped = true;
-                _jumpedTimer = 0;
+                RbAddPower();
                 velo.y = _jumpPower;
             }
 
@@ -95,6 +93,12 @@ public class PlayerController : MonoBehaviour
     //    bool isGround = Physics.Linecast(start, end);
     //    return isGround;
     //}
+
+    public void RbAddPower()
+    {
+        _jumpedTimer = 0;
+        _jumped = true;
+    }
 
     private void OnTriggerStay(Collider other)
     {

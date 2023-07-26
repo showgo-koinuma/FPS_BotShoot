@@ -25,7 +25,7 @@ public class ImpulseGrenadeController : MonoBehaviour
 
     IEnumerator Stick()
     {
-        _rb.Sleep();
+        _rb.velocity = Vector3.zero;
         yield return new WaitForSeconds(_boomTime);
         if (_impulseImpactObject)
         {
