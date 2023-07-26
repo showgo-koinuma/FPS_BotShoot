@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1407346730121271433}
   - component: {fileID: 1407346730121271430}
   - component: {fileID: 1407346730121271431}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: FootTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407346730378087861}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: -5.29}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10486,7 +10486,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407346731134800336}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: -5.29}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10878,7 +10878,7 @@ GameObject:
   - component: {fileID: 1407346731567983590}
   - component: {fileID: 1407346731567983594}
   - component: {fileID: 1407346731567983595}
-  - component: {fileID: 6153683720192172485}
+  - component: {fileID: 7362357582200018567}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -10894,7 +10894,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407346731567983588}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -5.29}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.8, y: 1, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10984,7 +10984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 10
   _jumpPower: 10
---- !u!114 &6153683720192172485
+--- !u!114 &7362357582200018567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10993,9 +10993,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1407346731567983588}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c475e2361a9cfaa499c97152f9e2b2e4, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b8b19b3ac5a43047a35b4bca42b51e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nadeObject: {fileID: 2651259454492701523, guid: 43afdae8159b61a4bac612b1fa6550d5, type: 3}
+  _coolDown: 3
 --- !u!1 &1407346731630493237
 GameObject:
   m_ObjectHideFlags: 0
@@ -11266,7 +11268,7 @@ GameObject:
   - component: {fileID: 1407346731845474791}
   - component: {fileID: 1407346731845474788}
   - component: {fileID: 1407346731845474789}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: FootCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11491,8 +11493,8 @@ MonoBehaviour:
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
     m_InvertInput: 1
-    m_MinValue: -90
-    m_MaxValue: 90
+    m_MinValue: -89
+    m_MaxValue: 89
     m_Wrap: 0
     m_Recentering:
       m_enabled: 0
