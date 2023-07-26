@@ -6,6 +6,7 @@ using UnityEngine;
 /// <summary>弾道処理のコンポーネント</summary>
 public class GunController : MonoBehaviour
 {
+    [Header("銃の性能")]
     /// <summary>最大マガジン容量</summary>
     [SerializeField] int _maxBullets = 30;
     /// <summary>リロード時間</summary>
@@ -13,13 +14,18 @@ public class GunController : MonoBehaviour
     [SerializeField] int _damage = 20;
     /// <summary>連射間隔</summary>
     [SerializeField] float _shootInterval = 0.1f;
-    [SerializeField] float _recoilSize = 3f;
+    [SerializeField] float _recoilSize = 1f;
+    [Space(5)]
+    [Header("リコイル用")]
     /// <summary>リコイル用</summary>
     [SerializeField] CinemachineVirtualCamera _cam;
+    [Space(5)]
+    [Header("テキスト")]
     /// <summary>最大マガジン容量テキスト</summary>
     [SerializeField] TextMeshProUGUI _maxBulletsText;
     /// <summary>残弾表示テキスト</summary>
     [SerializeField] TextMeshProUGUI _remainingBulletsText;
+    [Header("エフェクト関連")]
     [SerializeField] ParticleSystem _muzzleFlashParticles;
     /// <summary>Target以外にhitしたときのエフェクト</summary>
     [SerializeField] GameObject[] _hitEffectPrefab;

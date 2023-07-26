@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Cinemachine;
+using System.Collections.Generic;
 
 /// <summary>
 /// プレイヤーを動かすコンポーネント
@@ -15,21 +15,29 @@ public class PlayerController : MonoBehaviour
     //float _isGroundedLength = 1.1f;
     /// <summary>空中での方向転換のスピード</summary>
     float _turnSpeed = 3;
-    CinemachinePOV _playerPOV;
-    IsGroundManager _isGroundManager;
+    bool _jumped;
+    float _jumpedTimer;
     bool IsGround;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         //_isGroundedLength = GetComponent<CapsuleCollider>().height / 2 + 0.1f;
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        _playerPOV = GameObject.Find("PlayerPov").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachinePOV>();
-        _isGroundManager = GetComponentInChildren<IsGroundManager>();
     }
 
     void Update()
     {
+        if (_jumped)
+        {
+            _jumpedTimer += Time.deltaTime;
+            if (_jumpedTimer > 0.2f)
+            {
+                _jumped = false;
+                _jumpedTimer = 0;
+            }
+            IsGround = false;
+        }
+
         // 水平移動処理
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
@@ -38,7 +46,7 @@ public class PlayerController : MonoBehaviour
         dir.y = 0;
         dir = dir.normalized;
         Vector3 velo = dir * _moveSpeed;
-        //velo.y = _rb.velocity.y;
+        velo.y = _rb.velocity.y;
         if (!IsGround)
         {
             // 空中でゆっくり方向転換が可能
@@ -53,19 +61,28 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if (dir.magnitude == 0f)
+            {
+                velo.y = -10;
+            }
+
+            if (Input.GetButton("Jump"))
+            {
+                _jumped = true;
+                _jumpedTimer = 0;
+                velo.y = _jumpPower;
+            }
+
             _rb.velocity = velo; // 接地中はvelocityを書き換える
         }
 
         // Jump処理
-        if (Input.GetButtonDown("Jump") && IsGround)
-        {
-            _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
-        }
-        
-        if (Input.GetButtonDown("Fire2"))
-        {
-            Debug.Log(_isGroundManager.IsGround);
-        }
+        //if (Input.GetButtonDown("Jump") && IsGround)
+        //{
+        //    _jumped = true;
+        //    _jumpedTimer = 0;
+        //    _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+        //}
     }
 
     /// <summary>接地しているかを判定する</summary>
@@ -79,25 +96,12 @@ public class PlayerController : MonoBehaviour
     //    return isGround;
     //}
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
-    {
-        transform.position = new Vector3(0, 1, 0);
-        _playerPOV.m_VerticalAxis.Value = 0;
-        _playerPOV.m_HorizontalAxis.Value = 0;
-    }
-
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("1");
-        if (other.gameObject.tag == "Ground")
-        {
-            IsGround = true;
-            Debug.Log("2");
-        }
+        IsGround = true;
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Ground")
-            IsGround = false;
+        IsGround = false;
     }
 }
