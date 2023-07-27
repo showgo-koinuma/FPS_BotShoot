@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Pause、Sens、シーン切り替えなどゲーム全体のManager
@@ -43,6 +44,11 @@ public class DDOLGameManagerController : MonoBehaviour
         {
             _isPause = !_isPause;
             Pause();
+        }
+        
+        if (_playerTransform.position.y < -10)
+        {
+            _playerTransform.position = _playerInitialPosition;
         }
     }
 

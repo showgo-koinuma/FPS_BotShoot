@@ -34,7 +34,7 @@ public class ImpulseExplosionController : MonoBehaviour
         {
             GameObject player = other.gameObject.transform.parent.gameObject;
             Rigidbody rb = player.GetComponent<Rigidbody>();
-            rb.AddForce((other.gameObject.transform.position - transform.position) * _impulsePower, ForceMode.Impulse);
+            rb.AddForce((other.gameObject.transform.position - transform.position).normalized * _impulsePower, ForceMode.Impulse);
             player.GetComponent<PlayerController>().RbAddPower();
         }
         Debug.Log(other.gameObject.name);

@@ -10,11 +10,12 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float _moveSpeed = 10;
     [SerializeField] float _jumpPower = 10;
+    [SerializeField] float _airMaxSpeed = 30;
+    /// <summary>空中での方向転換のスピード</summary>
+    [SerializeField] float _turnSpeed = 3;
     Rigidbody _rb;
     /// <summary>接地判定の距離</summary>
     //float _isGroundedLength = 1.1f;
-    /// <summary>空中での方向転換のスピード</summary>
-    float _turnSpeed = 3;
     bool _jumped;
     float _jumpedTimer;
     bool IsGround;
@@ -53,9 +54,17 @@ public class PlayerController : MonoBehaviour
             if (!(dir.magnitude == 0f))
             {
                 // 速度の大きさを保持しながら向きを少しずつ変える
-                Vector2 airDir = Vector2.Lerp(new Vector2(_rb.velocity.x, _rb.velocity.z), new Vector2(dir.x, dir.z) * _rb.velocity.magnitude, Time.deltaTime * _turnSpeed);
-                velo = new Vector3(airDir.x, _rb.velocity.y, airDir.y);
+                Vector2 startHoriVelo = new Vector2(_rb.velocity.x, _rb.velocity.z);
+                Vector2 endHoriVelo = new Vector2(dir.x, dir.z) * startHoriVelo.magnitude;
+                Vector2 airHoriVelo = Vector2.Lerp(startHoriVelo, endHoriVelo, _turnSpeed * Time.deltaTime).normalized * startHoriVelo.magnitude;
+                velo = new Vector3(airHoriVelo.x, _rb.velocity.y, airHoriVelo.y);
             }
+
+            //if (nowAirHoriVelo.magnitude > _airMaxSpeed) // Max Speed以上なら制限する
+            //{
+            //    nowAirHoriVelo = nowAirHoriVelo.normalized * _airMaxSpeed;
+            //    _rb.velocity = new Vector3(nowAirHoriVelo.x, _rb.velocity.y, nowAirHoriVelo.y);
+            //}
             _rb.velocity = velo;
         }
         else
