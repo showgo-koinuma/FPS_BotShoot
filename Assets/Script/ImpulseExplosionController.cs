@@ -37,6 +37,9 @@ public class ImpulseExplosionController : MonoBehaviour
             rb.AddForce((other.gameObject.transform.position - transform.position).normalized * _impulsePower, ForceMode.Impulse);
             player.GetComponent<PlayerController>().RbAddPower();
         }
-        Debug.Log(other.gameObject.name);
+        if (other.gameObject.TryGetComponent<Rigidbody>(out Rigidbody enemyRb))
+        {
+            enemyRb.AddForce((other.gameObject.transform.position - transform.position).normalized * _impulsePower, ForceMode.Impulse);
+        }
     }
 }
