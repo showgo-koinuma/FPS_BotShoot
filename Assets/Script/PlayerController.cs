@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float _moveSpeed = 10;
     [SerializeField] float _jumpPower = 10;
-    [SerializeField] float _airMaxSpeed = 30;
     /// <summary>空中での方向転換のスピード</summary>
     [SerializeField] float _turnSpeed = 3;
     Rigidbody _rb;
@@ -28,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (_jumped)
+        if (_jumped) // 一定時間接地判定にさせない
         {
             _jumpedTimer += Time.deltaTime;
             if (_jumpedTimer > 0.3f)
@@ -44,27 +43,27 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = new Vector3(h, 0, v); // 移動方向
         dir = Camera.main.transform.TransformDirection(dir); //カメラ基準のベクトルに直す
         dir.y = 0;
-        dir = dir.normalized;
+        dir = dir.normalized; // 単位化してある水平方向の入力ベクトル
         Vector3 velo = dir * _moveSpeed;
         velo.y = _rb.velocity.y;
         if (!IsGround)
         {
             // 空中でゆっくり方向転換が可能
             velo = _rb.velocity;
-            if (!(dir.magnitude == 0f))
+            if (dir.magnitude != 0f)
             {
                 // 速度の大きさを保持しながら向きを少しずつ変える
                 Vector2 startHoriVelo = new Vector2(_rb.velocity.x, _rb.velocity.z);
-                Vector2 endHoriVelo = new Vector2(dir.x, dir.z) * startHoriVelo.magnitude;
-                Vector2 airHoriVelo = Vector2.Lerp(startHoriVelo, endHoriVelo, _turnSpeed * Time.deltaTime).normalized * startHoriVelo.magnitude;
+                float horiMag = startHoriVelo.magnitude;
+                if (horiMag < 10f)
+                {
+                    horiMag = 10;
+                }
+                Vector2 endHoriVelo = new Vector2(dir.x * horiMag, dir.z * horiMag);
+                float turnSpeed = _turnSpeed * Time.deltaTime;
+                Vector2 airHoriVelo = endHoriVelo * turnSpeed + startHoriVelo * (1 - turnSpeed);
                 velo = new Vector3(airHoriVelo.x, _rb.velocity.y, airHoriVelo.y);
             }
-
-            //if (nowAirHoriVelo.magnitude > _airMaxSpeed) // Max Speed以上なら制限する
-            //{
-            //    nowAirHoriVelo = nowAirHoriVelo.normalized * _airMaxSpeed;
-            //    _rb.velocity = new Vector3(nowAirHoriVelo.x, _rb.velocity.y, nowAirHoriVelo.y);
-            //}
             _rb.velocity = velo;
         }
         else
@@ -82,27 +81,9 @@ public class PlayerController : MonoBehaviour
 
             _rb.velocity = velo; // 接地中はvelocityを書き換える
         }
-
-        // Jump処理
-        //if (Input.GetButtonDown("Jump") && IsGround)
-        //{
-        //    _jumped = true;
-        //    _jumpedTimer = 0;
-        //    _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
-        //}
     }
 
-    /// <summary>接地しているかを判定する</summary>
-    /// <returns></returns>
-    //bool IsGround()
-    //{
-    //    Vector3 start = transform.position;
-    //    Vector3 end = start + Vector3.down * _isGroundedLength;
-    //    Debug.DrawLine(start, end);
-    //    bool isGround = Physics.Linecast(start, end);
-    //    return isGround;
-    //}
-
+    /// <summary>ジャンプなどをしたとき一定時間接地判定にさせないためのメソッド</summary>
     public void RbAddPower()
     {
         _jumpedTimer = 0;

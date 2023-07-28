@@ -13224,6 +13224,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4342452769947319198, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
+      propertyPath: _turnSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5325720528195667698, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
       propertyPath: _coolDown
       value: 1
