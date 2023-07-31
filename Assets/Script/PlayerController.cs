@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     bool _jumped;
     float _jumpedTimer;
     bool IsGround;
+    Vector3 _planeNormalVector;
 
     void Start()
     {
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
         dir = dir.normalized; // 単位化してある水平方向の入力ベクトル
         Vector3 velo = dir * _moveSpeed;
         velo.y = _rb.velocity.y;
-        if (!IsGround)
+        if (!IsGround) // 空中処理
         {
             // 空中でゆっくり方向転換が可能
             velo = _rb.velocity;
@@ -66,20 +67,17 @@ public class PlayerController : MonoBehaviour
             }
             _rb.velocity = velo;
         }
-        else
+        else // 接地中処理
         {
-            if (dir.magnitude == 0f)
-            {
-                velo.y = -10;
-            }
-
+            // 接している面に沿ったベクトルに変える
+            Vector3 onPlaneVelo = Vector3.ProjectOnPlane(velo, _planeNormalVector);
             if (Input.GetButton("Jump"))
             {
                 RbAddPower();
-                velo.y = _jumpPower;
+                onPlaneVelo.y = _jumpPower;
             }
 
-            _rb.velocity = velo; // 接地中はvelocityを書き換える
+            _rb.velocity = onPlaneVelo; // 接地中はvelocityを書き換える
         }
     }
 
@@ -97,5 +95,14 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         IsGround = false;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        float angle = Vector3.Angle(Vector3.up, collision.contacts[0].normal); // 接している面の法線ベクトル
+        if (angle < 45)
+        {
+            _planeNormalVector = collision.contacts[0].normal;
+        }
     }
 }
