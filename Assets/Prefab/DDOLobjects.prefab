@@ -848,9 +848,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1407346731567983595, guid: c10f726aba5838147a204833bbfe5b05, type: 3}
+      propertyPath: _turnSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4183558775275142673, guid: c10f726aba5838147a204833bbfe5b05, type: 3}
       propertyPath: m_Name
       value: PlayerObjects
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362357582200018567, guid: c10f726aba5838147a204833bbfe5b05, type: 3}
+      propertyPath: _coolDown
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8009632805616119595, guid: c10f726aba5838147a204833bbfe5b05, type: 3}
       propertyPath: m_RootOrder

@@ -5,33 +5,50 @@ using UnityEngine.SceneManagement;
 
 public class StageGameManagerController : MonoBehaviour
 {
+    [Header("WAVE管理")]
+    [SerializeField] GameObject[] _enemyWave;
+    [SerializeField] TextMeshProUGUI _waveUI;
+    [Header("時間関係")]
     /// <summary>制限時間</summary>
     [SerializeField] int _timeLimit = 60;
-    [SerializeField] TextMeshProUGUI _scoreText;
     [SerializeField] TextMeshProUGUI _timerText;
+    [Header("スコア、botテキスト")]
+    [SerializeField] TextMeshProUGUI _scoreText;
+    [SerializeField] TextMeshProUGUI _addScoreText;
     [SerializeField] TextMeshProUGUI _botCountText;
+    [Header("ゲーム終了時UI")]
     [SerializeField] GameObject _finishPanel;
     [SerializeField] GameObject _finishText;
     [SerializeField] GameObject _returnLobbyButton;
-    [SerializeField] TextMeshProUGUI _addScoreText;
+    /// <summary>最初のColliderは初期地点弾がすり抜けない用</summary>
+    Collider[] _waveManageCollider;
     Animator _timerTextAnimator;
-    bool _inGame = true;
-    int _botNum;
+    bool _inGame = false; // ゲーム中か
+    /// <summary>現在のwave数</summary>
+    int _waveCount = 0;
+    /// <summary>botの最初の数</summary>
+    int _numOfBot;
+    /// <summary>botの現在の数</summary>
     int _botCount;
     int _score = 0;
     float _timer;
 
     private void Start()
     {
+        // 時間、スコア、botの数の初期設定
         _scoreText.text = _score.ToString("000");
         _timer = _timeLimit;
-        _botNum = GameObject.FindObjectsOfType<EnemyController>().Length;
-        _botCount = _botNum;
+        _timerText.text = _timer.ToString("0.0");
         _timerTextAnimator = _timerText.gameObject.GetComponent<Animator>();
-        _botCountText.text = $"{_botCount} / {_botNum}";
+
+        // ゲーム終了時のUI非表示
         _finishPanel.SetActive(false);
         _finishText.SetActive(false);
         _returnLobbyButton.SetActive(false);
+
+        // wave管理系
+        _waveManageCollider = GetComponentsInChildren<Collider>();
+        NextWave(); // 1st wave初期配置
     }
 
     private void Update()
@@ -39,18 +56,44 @@ public class StageGameManagerController : MonoBehaviour
         if (_inGame)
         {
             _timer -= Time.deltaTime;
-            if (_timer <= 10)
+
+
+            if (_timer <= 10) // 残り時間が10秒を切ると時間UIがアニメーションする
             {
                 _timerTextAnimator.Play("TimerColorAnimation");
+                if (_timer <= 0) // 残り時間0でゲーム終了
+                {
+                    _inGame = false;
+                    StartCoroutine(nameof(Finish));
+                }
             }
 
-            if (_timer <= 0 || _botCount == 0)
+            if (_botCount == 0) // botが全滅したら次waveへ
             {
-                _inGame = false;
-                StartCoroutine(nameof(Finish));
+                NextWave();
             }
 
-            _timerText.text = _timer.ToString("0.0");
+            _timerText.text = _timer.ToString("0.0"); // 時間表示
+        }
+    }
+
+    /// <summary>次のwaveに行く</summary>
+    void NextWave()
+    {
+        if (_waveCount < _enemyWave.Length) // 次のwaveへ
+        {
+            Instantiate(_enemyWave[_waveCount]); // wave出現
+            _numOfBot = _enemyWave[_waveCount].GetComponentsInChildren<EnemyController>().Length; // bot数をカウント
+            _waveCount++;
+            _waveManageCollider[_waveCount].enabled = false; // 次ステージへの道を開ける
+            // todo:UI更新
+            _botCount = _numOfBot;
+            _botCountText.text = $"{_botCount} / {_numOfBot}";
+        }
+        else // waveがもう無いのでゲーム終了の処理
+        {
+            _inGame = false;
+            StartCoroutine(nameof(Finish));
         }
     }
 
@@ -60,10 +103,10 @@ public class StageGameManagerController : MonoBehaviour
     {
         _score += addScore;
         _addScoreText.text = $"+{addScore}";
-        _addScoreText.gameObject.GetComponent<Animator>().Play("AddScoreTextAnimation", 0, 0);
-        _scoreText.text = _score.ToString("000");
+        _addScoreText.gameObject.GetComponent<Animator>().Play("AddScoreTextAnimation", 0, 0); // スコアが加算されるエフェクト
         _botCount--;
-        _botCountText.text = $"{_botCount} / {_botNum}";
+        _scoreText.text = _score.ToString("000");
+        _botCountText.text = $"{_botCount} / {_numOfBot}";
     }
 
     /// <summary>button用ロビーに戻る</summary>
@@ -73,7 +116,7 @@ public class StageGameManagerController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    /// <summary>ゲーム終了時の処理</summary>
+    /// <summary>ゲーム終了時のUI処理</summary>
     IEnumerator Finish()
     {
         _finishPanel.SetActive(true);
@@ -105,5 +148,12 @@ public class StageGameManagerController : MonoBehaviour
         _returnLobbyButton.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void OnTriggerEnter(Collider other) // スタート判定はtrigger
+    {
+        _inGame = true;
+        _waveManageCollider[0].enabled = false;
+        _waveManageCollider[1].enabled = false;
     }
 }
