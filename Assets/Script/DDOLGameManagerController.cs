@@ -73,6 +73,8 @@ public class DDOLGameManagerController : MonoBehaviour
     {
         // Player‚ÌPosition‚ðƒZƒbƒg
         _playerTransform.position = _playerInitialPosition;
+        _cinemachinePOV.m_VerticalAxis.Value = 0;
+        _cinemachinePOV.m_HorizontalAxis.Value = 0;
     }
 
     public void SetSens()
