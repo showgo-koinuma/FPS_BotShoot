@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 
 /// <summary>
 /// Pause、Sens、シーン切り替えなどゲーム全体のManager

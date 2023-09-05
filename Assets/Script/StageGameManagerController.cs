@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class StageGameManagerController : MonoBehaviour
 {
@@ -119,32 +120,37 @@ public class StageGameManagerController : MonoBehaviour
     /// <summary>ゲーム終了時のUI処理</summary>
     IEnumerator Finish()
     {
+        //表示：パネル、Finishテキスト
         _finishPanel.SetActive(true);
         _finishText.SetActive(true);
         yield return new WaitForSeconds(1);
 
+        //パネル拡大アニメーション
         _finishPanel.GetComponent<Animator>().Play("PanelAnimation");
         yield return new WaitForSeconds(1);
 
+        //2つのテキストの移動アニメーション
         _finishText.GetComponent<Animator>().Play("FInishTextAnimation");
         _scoreText.gameObject.GetComponent<Animator>().Play("ScoreTextAnimation");
         yield return new WaitForSeconds(1.5f);
 
         int addedTimeScore = (int)(_score * _timeLimit / (_timeLimit - _timer));
-        float finishTime = _timer;
-        Debug.Log("addScore : " + addedTimeScore);
-        float timer = 0;
-        while (timer < 1.5)
-        {
-            timer += Time.deltaTime;
-            _score += (int)((addedTimeScore - _score) * timer / 1.5f);
-            _timer = finishTime - finishTime * timer / 1.5f;
-            _scoreText.text = _score.ToString("000");
-            _timerText.text = _timer.ToString("0.0");
-            yield return new WaitForEndOfFrame();
-        }
-        _timerText.text = "0.0";
-        yield return new WaitForSeconds(1);
+        Debug.Log("Score : " + addedTimeScore);
+        DOTween.To(() => _score, i => _scoreText.text = i.ToString("000"), addedTimeScore, 1.5f).SetEase(Ease.OutCirc).OnComplete(() => _score = addedTimeScore);
+        DOTween.To(() => _timer, i => _timerText.text = i.ToString("0.0"), 0, 1.5f);
+        //float timer = 0;
+        //while (timer < 1.5)
+        //{
+        //    timer += Time.deltaTime;
+        //    _score += (int)((addedTimeScore - _score) * timer / 1.5f);
+        //    _timer = finishTime - finishTime * timer / 1.5f;
+        //    _scoreText.text = _score.ToString("000");
+        //    _timerText.text = _timer.ToString("0.0");
+        //    yield return new WaitForEndOfFrame();
+        //}
+        //_timerText.text = "0.0";
+        yield return new WaitForSeconds(2.5f);
+
         _returnLobbyButton.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;

@@ -12602,7 +12602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyWave:
-  - {fileID: 8874139611896039955, guid: 012c61318956c9f42acaf42ed01a1423, type: 3}
+  - {fileID: 1064501771433026395, guid: 98680e7714af8b24a86a815d05a35120, type: 3}
   _waveUI: {fileID: 0}
   _timeLimit: 60
   _timerText: {fileID: 1397519989}
@@ -14128,12 +14128,8 @@ MonoBehaviour:
   m_VersionIndex: 5334
   m_IsSelectable: 1
   m_SelectedFaces: 
-  m_SelectedEdges:
-  - a: 26
-    b: 27
-  - a: 30
-    b: 31
-  m_SelectedVertices: 1a0000001b0000001e0000001f000000
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!43 &1912743430
 Mesh:
   m_ObjectHideFlags: 0
