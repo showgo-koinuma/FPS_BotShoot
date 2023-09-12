@@ -49,7 +49,7 @@ public class StageGameManagerController : MonoBehaviour
 
         // wave管理系
         _waveManageCollider = GetComponentsInChildren<Collider>();
-        NextWave(); // 1st wave初期配置
+        Debug.Log(_waveManageCollider.Length);
     }
 
     private void Update()
@@ -86,10 +86,10 @@ public class StageGameManagerController : MonoBehaviour
             Instantiate(_enemyWave[_waveCount]); // wave出現
             _numOfBot = _enemyWave[_waveCount].GetComponentsInChildren<EnemyController>().Length; // bot数をカウント
             _waveCount++;
-            _waveManageCollider[_waveCount].enabled = false; // 次ステージへの道を開ける
-            // todo:UI更新
+            _waveManageCollider[_waveCount].gameObject.SetActive(false); // 次ステージへの道を開ける
             _botCount = _numOfBot;
-            _botCountText.text = $"{_botCount} / {_numOfBot}";
+            _botCountText.text = $"{_botCount} / {_numOfBot}"; // bot数のテキスト更新
+            _waveUI.text = $"{_waveCount}"; // wave数のテキスト更新
         }
         else // waveがもう無いのでゲーム終了の処理
         {
@@ -138,17 +138,6 @@ public class StageGameManagerController : MonoBehaviour
         Debug.Log("Score : " + addedTimeScore);
         DOTween.To(() => _score, i => _scoreText.text = i.ToString("000"), addedTimeScore, 1.5f).SetEase(Ease.OutCirc).OnComplete(() => _score = addedTimeScore);
         DOTween.To(() => _timer, i => _timerText.text = i.ToString("0.0"), 0, 1.5f);
-        //float timer = 0;
-        //while (timer < 1.5)
-        //{
-        //    timer += Time.deltaTime;
-        //    _score += (int)((addedTimeScore - _score) * timer / 1.5f);
-        //    _timer = finishTime - finishTime * timer / 1.5f;
-        //    _scoreText.text = _score.ToString("000");
-        //    _timerText.text = _timer.ToString("0.0");
-        //    yield return new WaitForEndOfFrame();
-        //}
-        //_timerText.text = "0.0";
         yield return new WaitForSeconds(2.5f);
 
         _returnLobbyButton.SetActive(true);
@@ -158,8 +147,9 @@ public class StageGameManagerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) // スタート判定はtrigger
     {
+        Debug.Log("suta-to");
         _inGame = true;
         _waveManageCollider[0].enabled = false;
-        _waveManageCollider[1].enabled = false;
+        NextWave(); // 1st wave初期配置
     }
 }
