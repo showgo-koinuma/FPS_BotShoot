@@ -85,13 +85,6 @@ public class GunController : MonoBehaviour
                 component.OnHit(_damage, hit.collider); // OnHit‚ðŒÄ‚Ô
                 _hitUIEffect.Play("HitUIAnimation");
             }
-            // ‹ŒŽ®
-            //if (hit.collider.gameObject.tag == "Target") // Target‚É“–‚½‚Á‚½‚Æ‚«
-            //{
-            //    TargetController target = hit.collider.gameObject.GetComponent<TargetController>();
-            //    target.OnHit(_damage, hit.collider); // OnHit‚ðŒÄ‚Ô
-            //    _hitUIEffect.Play("HitUIAnimation");
-            //}
             else
             {
                 foreach (GameObject effect in _hitEffectPrefab)
