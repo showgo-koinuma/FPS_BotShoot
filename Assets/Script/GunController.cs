@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 /// <summary>弾道処理のコンポーネント</summary>
 public class GunController : MonoBehaviour
@@ -27,6 +28,8 @@ public class GunController : MonoBehaviour
     /// <summary>残弾表示テキスト</summary>
     [SerializeField] TextMeshProUGUI _remainingBulletsText;
     [Header("エフェクト関連")]
+    [SerializeField] AudioClip _shootSound;
+    [SerializeField] AudioClip[] _reloadSounds;
     [SerializeField] ParticleSystem _muzzleFlashParticles;
     /// <summary>Target以外にhitしたときのエフェクト</summary>
     [SerializeField] GameObject[] _hitEffectPrefab;
@@ -36,6 +39,7 @@ public class GunController : MonoBehaviour
     int _remainingBullets;
     /// <summary>弾の最大レンジ</summary>
     float _maxShootRange = 100;
+    AudioSource _audioSource;
     /// <summary>クロスヘアのヒット時のAnimator</summary>
     Animator _crosshairAnimator;
     /// <summary>ヒットエフェクトの色変更用</summary>
@@ -53,6 +57,7 @@ public class GunController : MonoBehaviour
         _cinemachinePOV = _cam.GetCinemachineComponent<CinemachinePOV>();
         _animator = GetComponent<Animator>();
         _gunState = GunState.Normal;
+        _audioSource = GetComponent<AudioSource>();
         _crosshairAnimator = _hitUIEffects.GetComponent<Animator>();
         _hitUIEffectImages = _hitUIEffects.GetComponentsInChildren<RawImage>();
     }
@@ -92,7 +97,7 @@ public class GunController : MonoBehaviour
                 Color color = new Color(1, 1, 1, 1);
                 if (component.OnHit(_damage, hit.collider))// OnHitを呼ぶ
                 {
-                    color = new Color(0.8f, 0, 0, 1);
+                    color = new Color(0.9f, 0, 0, 1);
                 }
 
                 foreach (RawImage child in _hitUIEffectImages)
@@ -110,6 +115,7 @@ public class GunController : MonoBehaviour
                 }
             }
         }
+        _audioSource.PlayOneShot(_shootSound); // 発射音再生
         _muzzleFlashParticles.Play(); // マズルフラッシュ
         _remainingBullets--; // 残弾を減らす
         StartCoroutine(nameof(RapidFire));
@@ -121,6 +127,8 @@ public class GunController : MonoBehaviour
     {
         _gunState = GunState.Reloading;
         _animator.Play("ReloadAnimator");
+        DOVirtual.DelayedCall(0.3f, () => { _audioSource.PlayOneShot(_reloadSounds[0]); });
+        DOVirtual.DelayedCall(1.3f, () => { _audioSource.PlayOneShot(_reloadSounds[1]); });
         yield return new WaitForSeconds(_reloadTime);
         _gunState = GunState.Normal;
         _remainingBullets = _maxBullets;
