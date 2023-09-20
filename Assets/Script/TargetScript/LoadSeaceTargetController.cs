@@ -7,7 +7,7 @@ public class LoadSeaceTargetController : TargetController
     [SerializeField] string _name;
     [SerializeField] int _index;
 
-    public override void OnHit(float damage, Collider hitCollider)
+    public override bool OnHit(float damage, Collider hitCollider)
     {
         if (_format == Format.Name)
         {
@@ -17,6 +17,8 @@ public class LoadSeaceTargetController : TargetController
         {
             SceneManager.LoadScene(_index);
         }
+
+        return false;
     }
 
     enum Format

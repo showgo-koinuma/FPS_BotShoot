@@ -31,18 +31,21 @@ public class DamageCountBotController : TargetController
         }
     }
 
-    public override void OnHit(float damage, Collider hitCollider)
+    public override bool OnHit(float damage, Collider hitCollider)
     {
         _counting = true;
         _damageTimer = 0;
         if (hitCollider == _botCollider[1]) // “ª‚É“–‚½‚Á‚½‚Æ‚«
         {
             _damageCount += damage * 2.5f;
+            _damageCountText.text = _damageCount.ToString("000");
+            return true;
         }
         else // ‚»‚êˆÈŠO‚É“–‚½‚Á‚½‚Æ‚«
         {
             _damageCount += damage;
+            _damageCountText.text = _damageCount.ToString("000");
+            return false;
         }
-        _damageCountText.text = _damageCount.ToString("000");
     }
 }

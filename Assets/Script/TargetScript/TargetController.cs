@@ -11,5 +11,5 @@ public abstract class TargetController : MonoBehaviour
     /// <summary>tag‚ªTarget‚¾‚Æhit‚µ‚½‚Æ‚«ŒÄ‚Î‚ê‚é</summary>
     /// <param name="damage"></param>
     /// <param name="hitCollider"></param>
-    public abstract void OnHit(float damage, Collider hitCollider);
+    public abstract bool OnHit(float damage, Collider hitCollider);
 }

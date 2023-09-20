@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>弾道処理のコンポーネント</summary>
 public class GunController : MonoBehaviour
@@ -29,12 +30,16 @@ public class GunController : MonoBehaviour
     [SerializeField] ParticleSystem _muzzleFlashParticles;
     /// <summary>Target以外にhitしたときのエフェクト</summary>
     [SerializeField] GameObject[] _hitEffectPrefab;
-    [SerializeField] Animator _hitUIEffect;
+    [SerializeField] GameObject _hitUIEffects;
  
     /// <summary>残弾</summary>
     int _remainingBullets;
     /// <summary>弾の最大レンジ</summary>
     float _maxShootRange = 100;
+    /// <summary>クロスヘアのヒット時のAnimator</summary>
+    Animator _crosshairAnimator;
+    /// <summary>ヒットエフェクトの色変更用</summary>
+    RawImage[] _hitUIEffectImages;
     /// <summary>リコイル用</summary>
     CinemachinePOV _cinemachinePOV;
     Animator _animator;
@@ -48,6 +53,8 @@ public class GunController : MonoBehaviour
         _cinemachinePOV = _cam.GetCinemachineComponent<CinemachinePOV>();
         _animator = GetComponent<Animator>();
         _gunState = GunState.Normal;
+        _crosshairAnimator = _hitUIEffects.GetComponent<Animator>();
+        _hitUIEffectImages = _hitUIEffects.GetComponentsInChildren<RawImage>();
     }
 
     void Update()
@@ -82,8 +89,18 @@ public class GunController : MonoBehaviour
             Debug.Log(hit.collider.gameObject.name);
             if (hit.collider.gameObject.TryGetComponent(out TargetController component))
             {
-                component.OnHit(_damage, hit.collider); // OnHitを呼ぶ
-                _hitUIEffect.Play("HitUIAnimation");
+                Color color = new Color(1, 1, 1, 1);
+                if (component.OnHit(_damage, hit.collider))// OnHitを呼ぶ
+                {
+                    color = new Color(0.8f, 0, 0, 1);
+                }
+
+                foreach (RawImage child in _hitUIEffectImages)
+                {
+                    child.color = color;
+                }
+
+                _crosshairAnimator.Play("HitUIAnimation");
             }
             else
             {

@@ -19,7 +19,7 @@ public class EnemyController : TargetController
         _enemyCollider = GetComponents<Collider>();
     }
 
-    public override void OnHit(float damage, Collider hitCollider)
+    public override bool OnHit(float damage, Collider hitCollider)
     {
         if (hitCollider == _enemyCollider[1]) // “ª‚É“–‚½‚Á‚½‚Æ‚«
         {
@@ -28,16 +28,22 @@ public class EnemyController : TargetController
             {
                 _lastHitHead = true;
             }
+            if (_hp <= 0) // hp‚ª0‚É‚È‚Á‚½‚ç
+            {
+                IsDead();
+            }
+            return true;
         }
         else // ‚»‚êˆÈŠO‚É“–‚½‚Á‚½‚Æ‚«
         {
             _hp -= damage;
+            if (_hp <= 0) // hp‚ª0‚É‚È‚Á‚½‚ç
+            {
+                IsDead();
+            }
+            return false;
         }
 
-        if (_hp <= 0) // hp‚ª0‚É‚È‚Á‚½‚ç
-        {
-            IsDead();
-        }
     }
 
     void IsDead()
