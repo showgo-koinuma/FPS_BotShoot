@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
     int[] _scoreList = new int[5];
     string _rankingString;
 
-    private void Update()
+    private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
