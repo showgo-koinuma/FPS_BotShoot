@@ -25,6 +25,9 @@ public class DDOLGameManagerController : MonoBehaviour
     float _sens;
     /// <summary>sens変更用</summary>
     CinemachinePOV _cinemachinePOV;
+    public static DDOLGameManagerController instans;
+    /// <summary>カーソル消えない用のin game判定</summary>
+    public bool InGame { set; private get; } = true;
 
     void Awake()
     {
@@ -35,6 +38,7 @@ public class DDOLGameManagerController : MonoBehaviour
         // カーソル関連
         Cursor.visible = false; 
         Cursor.lockState = CursorLockMode.Locked;
+        if (!instans) instans = this;
     }
 
     void Update()
@@ -55,16 +59,20 @@ public class DDOLGameManagerController : MonoBehaviour
     {
         _isPause = !_isPause;
         _canvas.SetActive(_isPause);
-        Cursor.visible = _isPause;
         if (_isPause)
         {
             Time.timeScale = 0;
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = _isPause;
         }
         else
         {
             Time.timeScale = 1;
-            Cursor.lockState = CursorLockMode.Locked;
+            if (InGame)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = _isPause;
+            }
         }
     }
 
@@ -74,6 +82,10 @@ public class DDOLGameManagerController : MonoBehaviour
         _playerTransform.position = _playerInitialPosition;
         _cinemachinePOV.m_VerticalAxis.Value = 0;
         _cinemachinePOV.m_HorizontalAxis.Value = 0;
+        // ゲーム中判定をリセット
+        InGame = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = _isPause;
     }
 
     public void SetSens()

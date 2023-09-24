@@ -77,7 +77,7 @@ public class GunController : MonoBehaviour
                 StartCoroutine(nameof(Reload));
             }
         }
-        if (Input.GetButtonDown("Reload") && _remainingBullets < _maxBullets)
+        if (Input.GetButtonDown("Reload") && _remainingBullets < _maxBullets && _gunState != GunState.Reloading)
         {
             StartCoroutine(nameof(Reload)); // ƒŠƒ[ƒh‚ðŒÄ‚Ô
         }

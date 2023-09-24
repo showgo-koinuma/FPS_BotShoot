@@ -123,6 +123,7 @@ public class StageGameManagerController : MonoBehaviour
         //表示：パネル、Finishテキスト
         _finishPanel.SetActive(true);
         _finishText.SetActive(true);
+        DDOLGameManagerController.instans.InGame = false;
         yield return new WaitForSeconds(1);
 
         //パネル拡大アニメーション
