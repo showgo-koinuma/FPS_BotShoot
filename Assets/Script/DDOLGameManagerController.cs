@@ -41,7 +41,6 @@ public class DDOLGameManagerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Cancel"))
         {
-            _isPause = !_isPause;
             Pause();
         }
         
@@ -52,8 +51,9 @@ public class DDOLGameManagerController : MonoBehaviour
     }
 
     /// <summary>Pauseƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Æ‚«‚ÉÀs</summary>
-    void Pause()
+    public void Pause()
     {
+        _isPause = !_isPause;
         _canvas.SetActive(_isPause);
         Cursor.visible = _isPause;
         if (_isPause)

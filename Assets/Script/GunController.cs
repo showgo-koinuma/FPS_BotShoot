@@ -29,6 +29,8 @@ public class GunController : MonoBehaviour
     [SerializeField] TextMeshProUGUI _remainingBulletsText;
     [Header("エフェクト関連")]
     [SerializeField] AudioClip _shootSound;
+    [SerializeField] AudioClip _hitSound;
+    [SerializeField] AudioClip _headShotSound;
     [SerializeField] AudioClip[] _reloadSounds;
     [SerializeField] ParticleSystem _muzzleFlashParticles;
     /// <summary>Target以外にhitしたときのエフェクト</summary>
@@ -95,9 +97,14 @@ public class GunController : MonoBehaviour
             if (hit.collider.gameObject.TryGetComponent(out TargetController component))
             {
                 Color color = new Color(1, 1, 1, 1);
-                if (component.OnHit(_damage, hit.collider))// OnHitを呼ぶ
+                if (component.OnHit(_damage, hit.collider))
                 {
                     color = new Color(0.9f, 0, 0, 1);
+                    SystemSoundManager.instance.PlayOneShotClip(_headShotSound);
+                }
+                else
+                {
+                    SystemSoundManager.instance.PlayOneShotClip(_hitSound);
                 }
 
                 foreach (RawImage child in _hitUIEffectImages)

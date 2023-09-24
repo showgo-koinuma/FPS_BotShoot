@@ -19,6 +19,11 @@ public class EnemyController : TargetController
         _enemyCollider = GetComponents<Collider>();
     }
 
+    private void FixedUpdate()
+    {
+        if (transform.position.y < -10) IsDead();
+    }
+
     public override bool OnHit(float damage, Collider hitCollider)
     {
         if (hitCollider == _enemyCollider[1]) // “ª‚É“–‚½‚Á‚½‚Æ‚«
