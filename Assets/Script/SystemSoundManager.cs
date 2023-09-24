@@ -19,6 +19,5 @@ public class SystemSoundManager : MonoBehaviour
     public void PlayOneShotClip(AudioClip audioClip)
     {
         _audioSouce.PlayOneShot(audioClip);
-        Debug.Log("colled mesod");
     }
 }

@@ -15,6 +15,8 @@ public class DDOLGameManagerController : MonoBehaviour
     /// <summary>sens変更slider</summary>
     [SerializeField] Slider _sensSlider;
     [SerializeField] TextMeshProUGUI _sensText;
+    [SerializeField] AudioClip _pauseOpenSound;
+    [SerializeField] AudioClip _pauseCloseSound;
     [Space(5)]
     [Header("プレイヤー設定")]
     /// <summary>sens変更用</summary>
@@ -64,10 +66,12 @@ public class DDOLGameManagerController : MonoBehaviour
             Time.timeScale = 0;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = _isPause;
+            SystemSoundManager.instance.PlayOneShotClip(_pauseOpenSound);
         }
         else
         {
             Time.timeScale = 1;
+            SystemSoundManager.instance.PlayOneShotClip(_pauseCloseSound);
             if (InGame)
             {
                 Cursor.lockState = CursorLockMode.Locked;

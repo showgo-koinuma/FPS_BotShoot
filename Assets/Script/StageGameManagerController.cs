@@ -21,6 +21,8 @@ public class StageGameManagerController : MonoBehaviour
     [SerializeField] GameObject _finishPanel;
     [SerializeField] GameObject _finishText;
     [SerializeField] GameObject _returnLobbyButton;
+    [Space(10)]
+    [SerializeField] AudioClip _killSound;
     /// <summary>最初のColliderは初期地点弾がすり抜けない用</summary>
     Collider[] _waveManageCollider;
     Animator _timerTextAnimator;
@@ -108,6 +110,7 @@ public class StageGameManagerController : MonoBehaviour
         _botCount--;
         _scoreText.text = _score.ToString("000");
         _botCountText.text = $"{_botCount} / {_numOfBot}";
+        SystemSoundManager.instance.PlayOneShotClip(_killSound);
     }
 
     /// <summary>button用ロビーに戻る</summary>

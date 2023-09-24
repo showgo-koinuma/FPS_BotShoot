@@ -1680,7 +1680,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh41658
+  m_Name: pb_Mesh53472
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2527,7 +2527,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh41738
+  m_Name: pb_Mesh53552
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2928,7 +2928,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh41644
+  m_Name: pb_Mesh53458
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3409,14 +3409,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 88682444103658385, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 88682445477321103, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3442047178866394469, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
       propertyPath: m_Name
       value: DDOLobjects
@@ -3464,22 +3456,6 @@ PrefabInstance:
     - target: {fileID: 3442047178866394475, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3442047180154563052, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7092548928067387490, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7092548929242697860, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7369574393265275475, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: m_Volume
-      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
