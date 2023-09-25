@@ -23,6 +23,8 @@ public class StageGameManagerController : MonoBehaviour
     [SerializeField] GameObject _returnLobbyButton;
     [Space(10)]
     [SerializeField] AudioClip _killSound;
+    [SerializeField] AudioClip _startSound;
+    [SerializeField] AudioClip _nextWaveSound;
     /// <summary>最初のColliderは初期地点弾がすり抜けない用</summary>
     Collider[] _waveManageCollider;
     Animator _timerTextAnimator;
@@ -30,7 +32,7 @@ public class StageGameManagerController : MonoBehaviour
     /// <summary>現在のwave数</summary>
     int _waveCount = 0;
     /// <summary>botの最初の数</summary>
-    int _numOfBot;
+    //int _numOfBot;
     /// <summary>botの現在の数</summary>
     int _botCount;
     int _score = 0;
@@ -39,7 +41,7 @@ public class StageGameManagerController : MonoBehaviour
     private void Start()
     {
         // 時間、スコア、botの数の初期設定
-        _scoreText.text = _score.ToString("000");
+        _scoreText.text = _score.ToString("00000");
         _timer = _timeLimit;
         _timerText.text = _timer.ToString("0.0");
         _timerTextAnimator = _timerText.gameObject.GetComponent<Animator>();
@@ -86,12 +88,12 @@ public class StageGameManagerController : MonoBehaviour
         if (_waveCount < _enemyWave.Length) // 次のwaveへ
         {
             Instantiate(_enemyWave[_waveCount]); // wave出現
-            _numOfBot = _enemyWave[_waveCount].GetComponentsInChildren<EnemyController>().Length; // bot数をカウント
+            _botCount = _enemyWave[_waveCount].GetComponentsInChildren<EnemyController>().Length; // bot数をカウント
             _waveCount++;
             _waveManageCollider[_waveCount].gameObject.SetActive(false); // 次ステージへの道を開ける
-            _botCount = _numOfBot;
-            _botCountText.text = $"{_botCount} / {_numOfBot}"; // bot数のテキスト更新
+            _botCountText.text = $"{_botCount}"; // bot数のテキスト更新
             _waveUI.text = $"{_waveCount}"; // wave数のテキスト更新
+            if (_waveCount != 1) SystemSoundManager.instance.PlayOneShotClip(_nextWaveSound); // 最初以外に鳴らす
         }
         else // waveがもう無いのでゲーム終了の処理
         {
@@ -101,15 +103,14 @@ public class StageGameManagerController : MonoBehaviour
     }
 
     /// <summary>キル時のポイント加算</summary>
-    /// <param name="lastHitHead"></param>
     public void KillAddScore(int addScore)
     {
         _score += addScore;
         _addScoreText.text = $"+{addScore}";
         _addScoreText.gameObject.GetComponent<Animator>().Play("AddScoreTextAnimation", 0, 0); // スコアが加算されるエフェクト
         _botCount--;
-        _scoreText.text = _score.ToString("000");
-        _botCountText.text = $"{_botCount} / {_numOfBot}";
+        _scoreText.text = _score.ToString("00000");
+        _botCountText.text = $"{_botCount}";
         SystemSoundManager.instance.PlayOneShotClip(_killSound);
     }
 
@@ -127,6 +128,7 @@ public class StageGameManagerController : MonoBehaviour
         _finishPanel.SetActive(true);
         _finishText.SetActive(true);
         DDOLGameManagerController.instans.InGame = false;
+        SystemSoundManager.instance.PlayOneShotClip(_startSound);
         yield return new WaitForSeconds(1);
 
         //パネル拡大アニメーション
@@ -140,7 +142,7 @@ public class StageGameManagerController : MonoBehaviour
 
         int addedTimeScore = (int)(_score * _timeLimit / (_timeLimit - _timer));
         Debug.Log("Score : " + addedTimeScore);
-        DOTween.To(() => _score, i => _scoreText.text = i.ToString("000"), addedTimeScore, 1.5f).SetEase(Ease.OutCirc).OnComplete(() => _score = addedTimeScore);
+        DOTween.To(() => _score, i => _scoreText.text = i.ToString("00000"), addedTimeScore, 1.5f).SetEase(Ease.OutCirc).OnComplete(() => _score = addedTimeScore);
         DOTween.To(() => _timer, i => _timerText.text = i.ToString("0.0"), 0, 1.5f);
         yield return new WaitForSeconds(2.5f);
 
@@ -155,5 +157,6 @@ public class StageGameManagerController : MonoBehaviour
         _inGame = true;
         _waveManageCollider[0].enabled = false;
         NextWave(); // 1st wave初期配置
+        SystemSoundManager.instance.PlayOneShotClip(_startSound);
     }
 }
