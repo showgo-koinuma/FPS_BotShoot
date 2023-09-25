@@ -1,27 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UseNadeController : MonoBehaviour
 {
     [SerializeField] GameObject _nadeObject;
     [SerializeField] float _coolDown = 3f;
-    float coolDownTimer = 3;
+    [SerializeField] Image _skillCDImage;
+    float coolDownTimer = 10;
+    bool _isCD = false;
 
     void Update()
     {
-        coolDownTimer += Time.deltaTime;
-        if (Input.GetButtonDown("Fire2"))
+        if (_isCD)
         {
-            if (coolDownTimer >= _coolDown)
+            coolDownTimer += Time.deltaTime;
+            _skillCDImage.fillAmount = 1 - coolDownTimer / _coolDown;
+        }
+        if (coolDownTimer >= _coolDown)
+        {
+            _isCD = false;
+            if (Input.GetButtonDown("Fire2"))
             {
                 Instantiate(_nadeObject).transform.position = Camera.main.transform.position + Camera.main.transform.forward;
                 coolDownTimer = 0;
-            }
-            else
-            {
-                // cool downíÜÇÃèàóù
-                Debug.Log("cool down now");
+                _isCD = true;
             }
         }
     }

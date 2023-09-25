@@ -55,7 +55,7 @@ public class GunController : MonoBehaviour
     private void Start()
     {
         _remainingBullets = _maxBullets;
-        _maxBulletsText.text = "/ " + _maxBullets.ToString();
+        _maxBulletsText.text = "/" + _maxBullets.ToString();
         _cinemachinePOV = _cam.GetCinemachineComponent<CinemachinePOV>();
         _animator = GetComponent<Animator>();
         _gunState = GunState.Normal;
