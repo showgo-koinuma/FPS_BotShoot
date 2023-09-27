@@ -105,11 +105,15 @@ public class StageGameManagerController : MonoBehaviour
     /// <summary>キル時のポイント加算</summary>
     public void KillAddScore(int addScore)
     {
-        _score += addScore;
-        _addScoreText.text = $"+{addScore}";
-        _addScoreText.gameObject.GetComponent<Animator>().Play("AddScoreTextAnimation", 0, 0); // スコアが加算されるエフェクト
+        if (_inGame)
+        {
+            _score += addScore;
+            _addScoreText.text = $"+{addScore}";
+            _addScoreText.gameObject.GetComponent<Animator>().Play("AddScoreTextAnimation", 0, 0); // スコアが加算されるエフェクト
+            _scoreText.text = _score.ToString("00000");
+        }
+
         _botCount--;
-        _scoreText.text = _score.ToString("00000");
         _botCountText.text = $"{_botCount}";
         SystemSoundManager.instance.PlayOneShotClip(_killSound);
     }
