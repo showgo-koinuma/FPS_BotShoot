@@ -5732,7 +5732,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60928
+  m_Name: pb_Mesh31300
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6124,7 +6124,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 795053026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.91, y: 3.04, z: 11.04}
+  m_LocalPosition: {x: 9.81, y: 3.04, z: 11.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6143,11 +6143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627e1a14d1c66744897207329fe81969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
-  - {fileID: 2100000, guid: ca32e2dc21fd6fd4dbe4b3d6249d8933, type: 2}
-  - {fileID: 2100000, guid: a570781c5f688e24283b01100136a8f6, type: 2}
-  - {fileID: 2100000, guid: 4245a226dcaa1574ca46bfc879d5787c, type: 2}
-  - {fileID: 2100000, guid: 5bc5cc05cb41b9f4ba23cb9a56b039ae, type: 2}
 --- !u!1 &890796137
 GameObject:
   m_ObjectHideFlags: 0
@@ -6925,7 +6920,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh61042
+  m_Name: pb_Mesh31414
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7493,7 +7488,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60914
+  m_Name: pb_Mesh31286
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12643,22 +12638,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3442047178866394475, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4342452769883434563, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5033462265882137496, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: m_ShowToolkit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5033462265882137496, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: m_ShowCustomSorter
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7387374423441504444, guid: 25cd3785de8cb1b499bbeda7e573e1b6, type: 3}
-      propertyPath: isGlobal
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

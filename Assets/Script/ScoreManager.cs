@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 
 public class ScoreManager : MonoBehaviour
@@ -34,6 +33,10 @@ public class ScoreManager : MonoBehaviour
         data._score = 0;
         _ranking._ranking = new List<Data> { data, data, data, data, data};
         LoadRanking();
+    }
+
+    private void Start()
+    {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -93,8 +96,12 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    void ResetRanking()
+    public void ResetRanking()
     {
-        //Ranking._ranking = new Dictionary<string, int> { { "anonymous", 0 }, { "anonymous", 0 }, { "anonymous", 0 }, { "anonymous", 0 }, { "anonymous", 0 } };
+        Data data = new Data();
+        data._name = "anonymous";
+        data._score = 0;
+        _ranking._ranking = new List<Data> { data, data, data, data, data };
+        SaveRanking();
     }
 }

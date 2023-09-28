@@ -122,7 +122,7 @@ public class StageGameManagerController : MonoBehaviour
     public void ReturnLobby()
     {
         ScoreManager.Instance.SetScore(_score);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Lobby");
     }
 
     /// <summary>ƒQ[ƒ€I—¹‚ÌUIˆ—</summary>
