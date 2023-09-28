@@ -30,9 +30,10 @@ public class ScoreManager : MonoBehaviour
         _ranking = new Ranking();
         Data data = new Data();
         data._name = "anonymous";
-        data._score = 0;
+        data._score = 00000;
         _ranking._ranking = new List<Data> { data, data, data, data, data};
         LoadRanking();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start()
@@ -44,23 +45,29 @@ public class ScoreManager : MonoBehaviour
     {
         if (scene.name == "Lobby") // ロビーがロードされたら_scoreTextにスコアを表示する
         {
-            GameObject rankingObj = GameObject.Find("RankingText");
+            GameObject rankingObj = GameObject.Find("RankingScoreText");
+            GameObject rankingNameObj = GameObject.Find("RankingNameText");
             string rankingScoreString = "";
+            string rankingNameString = "";
             for (int i = 0; i < _ranking._ranking.Count; i++)
             {
-                rankingScoreString += $"{_ranking._ranking[i]._score}\r\n";
+                rankingScoreString += $"{_ranking._ranking[i]._score.ToString("00000")}\r\n";
+                rankingNameString += $"{_ranking._ranking[i]._name}\r\n";
             }
             rankingObj.GetComponent<TextMeshProUGUI>().text = rankingScoreString;
             rankingObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rankingScoreString;
+            rankingNameObj.GetComponent<TextMeshProUGUI>().text = rankingNameString;
+            rankingNameObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rankingNameString;
             Debug.Log(rankingScoreString);
         }
     }
 
     /// <summary>新しいスコアをセットする</summary>
-    public void SetScore(int newScore)
+    public void SetScore(int newScore, string name)
     {
         Data data = new Data();
-        data._name = "anonymous";
+        data._name = name;
+        if (name == "") data._name = "anonymous";
         data._score = newScore;
         _ranking._ranking.Add(data);
         _ranking._ranking.Sort((a, b) => b._score - a._score);
@@ -100,7 +107,7 @@ public class ScoreManager : MonoBehaviour
     {
         Data data = new Data();
         data._name = "anonymous";
-        data._score = 0;
+        data._score = 00000;
         _ranking._ranking = new List<Data> { data, data, data, data, data };
         SaveRanking();
     }

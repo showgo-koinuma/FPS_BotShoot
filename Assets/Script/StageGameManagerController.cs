@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class StageGameManagerController : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class StageGameManagerController : MonoBehaviour
     [SerializeField] GameObject _finishPanel;
     [SerializeField] GameObject _finishText;
     [SerializeField] GameObject _returnLobbyButton;
+    [SerializeField] GameObject _nameInputField;
+    [SerializeField] TextMeshProUGUI _nameText;
     [Space(10)]
     [SerializeField] AudioClip _killSound;
     [SerializeField] AudioClip _startSound;
@@ -50,6 +53,7 @@ public class StageGameManagerController : MonoBehaviour
         _finishPanel.SetActive(false);
         _finishText.SetActive(false);
         _returnLobbyButton.SetActive(false);
+        _nameInputField.SetActive(false);
 
         // waveä«óùån
         _waveManageCollider = GetComponentsInChildren<Collider>();
@@ -121,7 +125,7 @@ public class StageGameManagerController : MonoBehaviour
     /// <summary>buttonópÉçÉrÅ[Ç…ñﬂÇÈ</summary>
     public void ReturnLobby()
     {
-        ScoreManager.Instance.SetScore(_score);
+        ScoreManager.Instance.SetScore(_score, _nameText.text);
         SceneManager.LoadScene("Lobby");
     }
 
@@ -151,6 +155,7 @@ public class StageGameManagerController : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
 
         _returnLobbyButton.SetActive(true);
+        _nameInputField.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }

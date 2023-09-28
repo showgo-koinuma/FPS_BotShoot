@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ImpulseExplosionController : MonoBehaviour
 {
     [SerializeField] float _impulsePower = 20f;
     [SerializeField] float _endExplosionTime = 0.2f;
+    [SerializeField] AudioClip _boomSound;
     float _scale;
     float _timer;
 
     void Start()
     {
         _scale = transform.localScale.x;
+        DDOLGameManagerController.instans.GetComponent<AudioSource>().PlayOneShot(_boomSound);
     }
 
     void Update()

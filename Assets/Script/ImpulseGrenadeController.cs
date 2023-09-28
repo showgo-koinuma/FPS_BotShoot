@@ -8,6 +8,7 @@ public class ImpulseGrenadeController : MonoBehaviour
     /// <summary>‚­‚Á‚Â‚¢‚Ä‚©‚ç”š”­‚·‚é‚Ü‚Å‚ÌŽžŠÔ</summary>
     [SerializeField] float _boomTime = 0.25f;
     [SerializeField] GameObject _impulseImpactObject;
+    [SerializeField] AudioClip _throwSound;
     Rigidbody _rb;
     Vector3 _stickPos;
 
@@ -15,6 +16,7 @@ public class ImpulseGrenadeController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _rb.AddForce(Camera.main.transform.forward * _speed, ForceMode.Impulse);
+        DDOLGameManagerController.instans.GetComponent<AudioSource>().PlayOneShot(_throwSound);
     }
 
     private void OnCollisionEnter(Collision collision)

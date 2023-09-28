@@ -112,3 +112,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _impulsePower: 20
   _endExplosionTime: 0.2
+  _boomSound: {fileID: 8300000, guid: 06c1b7ca7bcc9914eb766ba65d433998, type: 3}

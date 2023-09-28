@@ -130,3 +130,4 @@ MonoBehaviour:
   _speed: 30
   _boomTime: 0.4
   _impulseImpactObject: {fileID: 2359813929478590082, guid: 5cd67492648d43d4f9c44c8224f4556d, type: 3}
+  _throwSound: {fileID: 8300000, guid: ca4ce13f4b156744aa18d80370928776, type: 3}
