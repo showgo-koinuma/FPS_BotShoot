@@ -121,7 +121,7 @@ public class StageGameManagerController : MonoBehaviour
     /// <summary>button—pƒƒr[‚É–ß‚é</summary>
     public void ReturnLobby()
     {
-        GameObject.Find("DDOLGameManager").GetComponent<ScoreManager>().SetScore(_score);
+        ScoreManager.Instance.SetScore(_score);
         SceneManager.LoadScene(0);
     }
 

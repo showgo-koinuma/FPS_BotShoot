@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.L)) { ScoreManager.Instance.SaveRanking(); }
         if (_jumped) // ˆê’èŠÔÚ’n”»’è‚É‚³‚¹‚È‚¢
         {
             _jumpedTimer += Time.deltaTime;

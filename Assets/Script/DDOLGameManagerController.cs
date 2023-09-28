@@ -104,5 +104,6 @@ public class DDOLGameManagerController : MonoBehaviour
     private void OnApplicationQuit()
     {
         Cursor.visible = true; // カーソルを表示
+        ScoreManager.Instance.SaveRanking();
     }
 }
