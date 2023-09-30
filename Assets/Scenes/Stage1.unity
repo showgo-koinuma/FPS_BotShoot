@@ -21269,6 +21269,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyWave:
   - {fileID: 1064501771433026395, guid: 98680e7714af8b24a86a815d05a35120, type: 3}
+  - {fileID: 3701923037149653233, guid: 62be252aa10b59049a9ece6794e920c5, type: 3}
+  - {fileID: 6300976021156783785, guid: 374fa3bc054d2dc49a44d55e223db1da, type: 3}
   _waveUI: {fileID: 978539822}
   _timeLimit: 120
   _timerText: {fileID: 1397519989}

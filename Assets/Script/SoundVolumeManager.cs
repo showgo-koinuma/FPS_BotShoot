@@ -14,14 +14,14 @@ public class SoundVolumeManager : MonoBehaviour
     public void SetAudioMixerMaster()
     {
         _audioMixer.SetFloat("Master", _masterSlider.value * 100 - 80);
-        _masterValueText.text = (_masterSlider.value * 100).ToString();
+        _masterValueText.text = ((int)(_masterSlider.value * 100)).ToString();
     }
 
     //SE
     public void SetAudioMixerSE()
     {
         _audioMixer.SetFloat("SE", _SESlider.value * 100 - 80);
-        _SEValueText.text = (_SESlider.value * 100).ToString();
+        _SEValueText.text = ((int)(_SESlider.value * 100)).ToString();
     }
 
 }
