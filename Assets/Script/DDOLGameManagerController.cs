@@ -21,8 +21,8 @@ public class DDOLGameManagerController : MonoBehaviour
     [Header("プレイヤー設定")]
     /// <summary>sens変更用</summary>
     [SerializeField] CinemachineVirtualCamera _cinemachineVirtualCamera;
-    [SerializeField] Transform _playerTransform;
-    [SerializeField] Vector3 _playerInitialPosition;
+    [SerializeField] public Transform _playerTransform;
+    [SerializeField] public Vector3 _playerInitialPosition;
     bool _isPause = false;
     float _sens;
     /// <summary>sens変更用</summary>
@@ -33,6 +33,8 @@ public class DDOLGameManagerController : MonoBehaviour
 
     void Awake()
     {
+        if (!instans) instans = this;
+        else Destroy(this);
         SceneManager.sceneLoaded += SceneLoaded;
         _cinemachinePOV = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachinePOV>();
         _sensSlider.value = _cinemachinePOV.m_VerticalAxis.m_MaxSpeed;
@@ -40,7 +42,6 @@ public class DDOLGameManagerController : MonoBehaviour
         // カーソル関連
         Cursor.visible = false; 
         Cursor.lockState = CursorLockMode.Locked;
-        if (!instans) instans = this;
     }
 
     void Update()
@@ -80,16 +81,19 @@ public class DDOLGameManagerController : MonoBehaviour
         }
     }
 
-    void SceneLoaded(Scene nextScene, LoadSceneMode mode)
+    public void SceneLoaded(Scene nextScene, LoadSceneMode mode)
     {
         // PlayerのPositionをセット
-        _playerTransform.position = _playerInitialPosition;
+        if (nextScene.name != "Title")
+        {
+            if (_playerTransform) _playerTransform.position = _playerInitialPosition;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = _isPause;
+        }
         _cinemachinePOV.m_VerticalAxis.Value = 0;
         _cinemachinePOV.m_HorizontalAxis.Value = 0;
         // ゲーム中判定をリセット
-        InGame = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = _isPause;
+        if (nextScene.name != "Ranking") InGame = true;
     }
 
     public void SetSens()
@@ -104,6 +108,5 @@ public class DDOLGameManagerController : MonoBehaviour
     private void OnApplicationQuit()
     {
         Cursor.visible = true; // カーソルを表示
-        ScoreManager.Instance.SaveRanking();
     }
 }
